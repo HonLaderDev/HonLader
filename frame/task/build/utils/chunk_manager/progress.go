@@ -4,3 +4,10 @@ package chunk_manager
 func (c *ChunkManager) Progress() (int, int) {
 	return c.progress, c.max
 }
+
+// Advance 将内部进度向前推进一组。
+func (c *ChunkManager) Advance() {
+	if c.progress < c.max {
+		c.progress++
+	}
+}

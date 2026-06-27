@@ -14,8 +14,6 @@ import (
 // 避免任何边界值在不同服务端/转发层中产生兼容性问题。
 const MaxFillVolume = 32766
 
-const maxFillVolume = MaxFillVolume
-
 // blockInfo 是运行时 ID 解码后的轻量缓存结果。
 // 这里缓存 name/state 的目的是避免在大体量结构生成命令时反复做
 // RuntimeIDToState 转换，减少 CPU 消耗。
@@ -57,7 +55,7 @@ type cuboid struct {
 // 1. 先计算输入区块的整体包围盒，把所有 block 映射到同一个连续网格中。
 // 2. 在每个 y 层上，从左到右、从前到后扫描，寻找“以当前点为起点”的最大矩形。
 // 3. 对该矩形继续沿 y 方向叠高，得到尽量大的长方体。
-// 4. 若长方体体积超过 maxFillVolume，则按最少拆分段数原则继续切开。
+// 4. 若长方体体积超过 MaxFillVolume，则按最少拆分段数原则继续切开。
 //
 // 这个版本不是理论上的全局最优覆盖，但它有几个实际优点：
 // - 实现足够直接，便于维护和调试
@@ -276,7 +274,7 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 		// 规则固定为：
 		// - 体积 <= 0：忽略
 		// - 体积 == 1：发 setblock
-		// - 1 < 体积 <= maxFillVolume：发一条 fill
+		// - 1 < 体积 <= MaxFillVolume：发一条 fill
 		// - 体积超限：继续拆分，直到每个子块都满足 fill 上限
 		//
 		// 之所以把拆分收口到这里，是为了保证上游所有搜索逻辑都不必重复
@@ -290,7 +288,7 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 				sendSetBlock(box.x, box.y, box.z, info)
 				return
 			}
-			if volume <= maxFillVolume {
+			if volume <= MaxFillVolume {
 				sendFill(
 					box.x,
 					box.y,
@@ -334,10 +332,10 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 			priorities := [3]int{1, 0, 2}
 
 			for axis := range dims {
-				if dims[axis] <= 1 || otherVolumes[axis] <= 0 || otherVolumes[axis] > maxFillVolume {
+				if dims[axis] <= 1 || otherVolumes[axis] <= 0 || otherVolumes[axis] > MaxFillVolume {
 					continue
 				}
-				maxAxisSize := maxFillVolume / otherVolumes[axis]
+				maxAxisSize := MaxFillVolume / otherVolumes[axis]
 				if maxAxisSize <= 0 {
 					continue
 				}
@@ -508,7 +506,7 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 				}
 
 				depthLen := depth + 1
-				widthLimit := maxFillVolume / depthLen
+				widthLimit := MaxFillVolume / depthLen
 				width := currentWidth
 				if width > widthLimit {
 					width = widthLimit
@@ -535,7 +533,7 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 				}
 
 				widthLen := width + 1
-				depthLimit := maxFillVolume / widthLen
+				depthLimit := MaxFillVolume / widthLen
 				depth := currentDepth
 				if depth > depthLimit {
 					depth = depthLimit
@@ -614,7 +612,7 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 
 					// 第二步：根据体积上限，计算这个矩形理论上最多能叠多高。
 					// 例如面积是 100，那么高度上限就是 32766 / 100。
-					maxHeight := maxFillVolume / area
+					maxHeight := MaxFillVolume / area
 					if maxHeight <= 0 {
 						maxHeight = 1
 					}

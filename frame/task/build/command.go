@@ -2,6 +2,7 @@ package build
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"math"
 	"time"
@@ -76,6 +77,9 @@ func (b *BuildTask) sendWSCommandWithTimeout(ctx context.Context, command string
 	output, err := b.sendWSCommandWithResp(probeCtx, command)
 	if err == nil {
 		return output, false, nil
+	}
+	if errors.Is(probeCtx.Err(), context.DeadlineExceeded) || errors.Is(err, context.DeadlineExceeded) {
+		return nil, true, nil
 	}
 	return nil, false, fmt.Errorf("BuildTask.sendWSCommandWithTimeout: %w", err)
 }

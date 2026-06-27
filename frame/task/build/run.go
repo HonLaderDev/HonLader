@@ -6,46 +6,71 @@ import (
 )
 
 // run 执行构建任务主流程。
-//
-// 当前阶段只实现普通方块构建；后续清理、NBT 方块、命令方块升级、等待区块加载等流程都应接入这里。
 func (b *BuildTask) run(ctx context.Context) error {
-	// 无论正常结束、暂停还是错误退出，都要释放当前任务上下文引用；
-	// 如果 Start/Resume 已经创建了更新的上下文，finishTaskContext 会自动忽略旧上下文。
+	// 退出时清理任务上下文。
 	defer b.finishTaskContext(ctx)
 
-	// 区块组总数在任务初始化后不会变化，因此只在进入主流程时读取一次。
+	// 退出时清理常加载区域。
+	defer func() {
+		_ = b.releaseAllTickingAreas(context.Background())
+	}()
+
+	// 初始化常加载状态。
+	if err := b.prepareTickingAreaRuntime(ctx); err != nil {
+		return fmt.Errorf("BuildTask.run: prepare tickingarea state: %w", err)
+	}
+
+	// 读取初始构建进度。
 	progress, total := b.chunkManager.Progress()
 	b.publish(EventNameRunStart, b.world.Size(), total)
+
+	var currentFuture *chunkGroupFuture
 	for ; progress < total; progress++ {
-		// 先按当前进度算出区块组坐标并标记区块组开始，后续移动、等待加载和读取都属于这一组。
+		// 标记当前区块组。
 		groupPos := b.chunkManager.ChunkGroupPos(progress)
 		b.publish(EventNameRunChunkGroupStart, progress)
 
-		// 移动机器人到目标区块组中心，保证后续读取和构建尽量发生在目标区块加载范围内。
+		// 预读取下一组数据。
+		nextIndex := progress + 1
+		var nextFuture *chunkGroupFuture
+		if nextIndex < total {
+			if b.preHandleNextChunkGroup {
+				nextFuture = b.startPreHandleNextChunkGroup(ctx, nextIndex)
+			}
+		}
+
+		// 移动到区块组中心。
 		targetPos, err := b.moveBotToChunkGroup(ctx, groupPos)
 		if err != nil {
 			return fmt.Errorf("BuildTask.run: move bot to chunk group: %w", err)
 		}
 		b.publish(EventNameRunChunkGroupMove, groupPos, targetPos)
 
-		if err := b.waitChunkLoad(ctx, groupPos); err != nil {
-			return fmt.Errorf("BuildTask.run: wait chunk load: %w", err)
+		// 确认区块组已加载。
+		if err := b.ensureChunkGroupLoad(ctx, progress, groupPos); err != nil {
+			return fmt.Errorf("BuildTask.run: ensure chunk group load: %w", err)
 		}
 
-		// ChunkManager.NextChunkGroup 会推进内部区块组游标，并返回方块数据和 NBT 数据。
-		// 真正可持久化的断点仍然只依赖 CurrentChunk；暂停后 Resume 会重新 Init 并按 CurrentChunk 重建游标。
-		chunks, nbts, err := b.chunkManager.NextChunkGroup()
+		// 预等待下一组加载。
+		b.preloadNextChunkGroupLoad(ctx, nextIndex, total)
+
+		// 清理目标区域方块。
+		if err := b.cleanChunkGroup(ctx, groupPos); err != nil {
+			return fmt.Errorf("BuildTask.run: clean chunk group: %w", err)
+		}
+
+		// 读取当前区块组数据。
+		data, err := b.loadCurrentChunkGroup(ctx, progress, currentFuture)
 		if err != nil {
-			return fmt.Errorf("BuildTask.run: next chunk group: %w", err)
+			return fmt.Errorf("BuildTask.run: load current chunk group: %w", err)
 		}
-		b.publish(EventNameRunChunkGroupLoaded, chunks, nbts)
+		b.publish(EventNameRunChunkGroupLoaded, data.chunks, data.nbts)
 
-		// 当前阶段只生成普通方块命令；后续 NBT 方块和命令方块流程应在这里之后接入。
-		// 这里不会修改 checkpoint，命令全部发送完成后才认为这一组真正完成。
-		commands := b.blockBuilder.BuildCommands(chunks)
+		// 生成普通方块命令。
+		commands := b.blockBuilder.BuildCommands(data.chunks)
 		b.publish(EventNameRunCommandsGenerated, len(commands))
 
-		// 命令发送统一走封装方法，保证限速器对所有构建命令生效。
+		// 发送构建命令。
 		for _, command := range commands {
 			if err := b.sendSettingsCommand(ctx, command, false); err != nil {
 				return fmt.Errorf("BuildTask.run: send build command: %w", err)
@@ -53,11 +78,25 @@ func (b *BuildTask) run(ctx context.Context) error {
 			b.publish(EventNameRunCommandSent, command)
 		}
 
-		// 只有当前区块组的全部命令发送成功后，才推进持久化断点。
-		// 如果中途暂停或失败，Resume 会从这个区块组重新开始，避免跳过未完成内容。
-		b.updateCurrentChunk(progress + 1)
+		// 清理区块组掉落物。
+		if err := b.cleanChunkGroupItems(ctx, groupPos); err != nil {
+			return fmt.Errorf("BuildTask.run: clean chunk group items: %w", err)
+		}
+
+		// 推进持久化断点。
+		b.updateCurrentChunk(nextIndex)
 		b.publish(EventNameRunChunkGroupFinish)
+
+		// 释放上一组常加载。
+		if err := b.releasePreviousTickingArea(ctx); err != nil {
+			return fmt.Errorf("BuildTask.run: release previous tickingarea: %w", err)
+		}
+
+		// 切换下一组预读结果。
+		currentFuture = nextFuture
 	}
+
+	// 发布构建完成事件。
 	b.publish(EventNameRunFinish)
 	return nil
 }

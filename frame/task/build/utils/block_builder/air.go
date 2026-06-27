@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Yeah114/Fatalder/define"
+	build_utils "github.com/Yeah114/Fatalder/frame/task/build/utils"
 	"github.com/Yeah114/Fatalder/frame/task/build/utils/chunk_fill"
 )
 
@@ -20,11 +21,11 @@ func (b *BlockBuilder) BuildAirCommands(startPos, endPos define.BlockPos) []stri
 	plan := bestAirFillPlan(width, height, depth)
 	commands := make([]string, 0, plan.xParts*plan.yParts*plan.zParts)
 	for x := 0; x < width; x += plan.xSize {
-		xSize := minInt(plan.xSize, width-x)
+		xSize := build_utils.MinInt(plan.xSize, width-x)
 		for y := 0; y < height; y += plan.ySize {
-			ySize := minInt(plan.ySize, height-y)
+			ySize := build_utils.MinInt(plan.ySize, height-y)
 			for z := 0; z < depth; z += plan.zSize {
-				zSize := minInt(plan.zSize, depth-z)
+				zSize := build_utils.MinInt(plan.zSize, depth-z)
 				commands = append(commands, airFillCommand(
 					start.X()+x,
 					start.Y()+y,
@@ -60,14 +61,14 @@ func bestAirFillPlan(width, height, depth int) airFillPlan {
 	bestCount := width * height * depth
 
 	for xParts := 1; xParts <= width; xParts++ {
-		xSize := ceilQuotient(width, xParts)
+		xSize := build_utils.CeilQuotient(width, xParts)
 		for yParts := 1; yParts <= height; yParts++ {
-			ySize := ceilQuotient(height, yParts)
+			ySize := build_utils.CeilQuotient(height, yParts)
 			zSizeLimit := chunk_fill.MaxFillVolume / (xSize * ySize)
 			if zSizeLimit <= 0 {
 				continue
 			}
-			zParts := ceilQuotient(depth, zSizeLimit)
+			zParts := build_utils.CeilQuotient(depth, zSizeLimit)
 			if zParts <= 0 {
 				continue
 			}
@@ -75,7 +76,7 @@ func bestAirFillPlan(width, height, depth int) airFillPlan {
 			if count > bestCount {
 				continue
 			}
-			zSize := ceilQuotient(depth, zParts)
+			zSize := build_utils.CeilQuotient(depth, zParts)
 			if xSize*ySize*zSize > chunk_fill.MaxFillVolume {
 				continue
 			}
@@ -115,18 +116,4 @@ func airFillCommand(startX, startY, startZ, endX, endY, endZ int) string {
 		endY,
 		endZ,
 	)
-}
-
-func ceilQuotient(n, d int) int {
-	if d <= 0 {
-		return 0
-	}
-	return (n + d - 1) / d
-}
-
-func minInt(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }

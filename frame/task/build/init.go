@@ -39,6 +39,14 @@ func (b *BuildTask) init() error {
 	b.world = nil
 	b.chunkManager = nil
 	b.blockBuilder = nil
+	b.tickingAreas = nil
+	b.preHandleNextChunkGroup = false
+	b.preWaitNextChunkLoad = false
+	b.preWaitNextChunkTickingArea = false
+	b.tickingAreaRequiredSlots = 0
+	b.tickingAreaPreloadSlotsNeeded = 0
+	b.preWaitChunkGroupIndex = -1
+	b.preWaitChunkGroupFuture = nil
 
 	speed := b.speed()
 	if speed > 0 {

@@ -93,12 +93,55 @@ func registerBuildEvents(frame define.Frame) {
 		fmt.Printf("[%s] run start size=%dx%dx%d chunks=%d total_groups=%d\n",
 			time.Now().Format(time.RFC3339), size.Width, size.Height, size.Length, size.ChunkCount(), total)
 	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaCheckStart, func() {
+		fmt.Printf("[%s] tickingarea check start\n", time.Now().Format(time.RFC3339))
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaCheckFinish, func(available int, required int) {
+		fmt.Printf("[%s] tickingarea check finish available=%d required=%d\n", time.Now().Format(time.RFC3339), available, required)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaDisabled, func(available int, required int, reason string) {
+		fmt.Printf("[%s] tickingarea disabled available=%d required=%d reason=%q\n", time.Now().Format(time.RFC3339), available, required, reason)
+	})
 	frame.EventBus().Subscribe(build.EventNameRunChunkGroupStart, func(progress int) {
 		groupStartedAt = time.Now()
 		fmt.Printf("[%s] chunk group start progress=%d\n", time.Now().Format(time.RFC3339), progress)
 	})
 	frame.EventBus().Subscribe(build.EventNameRunChunkGroupMove, func(groupPos define.ChunkPos, targetPos define.BlockPos) {
 		fmt.Printf("[%s] chunk group move group=%v target=%v\n", time.Now().Format(time.RFC3339), groupPos, targetPos)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunChunkGroupPreHandleStart, func(index int, groupPos define.ChunkPos) {
+		fmt.Printf("[%s] pre handle start index=%d group=%v\n", time.Now().Format(time.RFC3339), index, groupPos)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunChunkGroupPreHandleFinish, func(index int, groupPos define.ChunkPos, chunkCount int, nbtCount int, err error) {
+		fmt.Printf("[%s] pre handle finish index=%d group=%v chunks=%d nbts=%d err=%v\n",
+			time.Now().Format(time.RFC3339), index, groupPos, chunkCount, nbtCount, err)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunChunkGroupPreWaitStart, func(index int, groupPos define.ChunkPos) {
+		fmt.Printf("[%s] pre wait start index=%d group=%v\n", time.Now().Format(time.RFC3339), index, groupPos)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunChunkGroupPreWaitFinish, func(index int, groupPos define.ChunkPos, err error) {
+		fmt.Printf("[%s] pre wait finish index=%d group=%v err=%v\n", time.Now().Format(time.RFC3339), index, groupPos, err)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaWaitStart, func(name string) {
+		fmt.Printf("[%s] tickingarea wait start name=%s\n", time.Now().Format(time.RFC3339), name)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaWaitFinish, func(name string) {
+		fmt.Printf("[%s] tickingarea wait finish name=%s\n", time.Now().Format(time.RFC3339), name)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaAddStart, func(groupPos define.ChunkPos, name string) {
+		fmt.Printf("[%s] tickingarea add start group=%v name=%s\n", time.Now().Format(time.RFC3339), groupPos, name)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaAddFinish, func(groupPos define.ChunkPos, name string) {
+		fmt.Printf("[%s] tickingarea add finish group=%v name=%s\n", time.Now().Format(time.RFC3339), groupPos, name)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaRemoveStart, func(name string) {
+		fmt.Printf("[%s] tickingarea remove start name=%s\n", time.Now().Format(time.RFC3339), name)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaRemoveFinish, func(name string) {
+		fmt.Printf("[%s] tickingarea remove finish name=%s\n", time.Now().Format(time.RFC3339), name)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunTickingAreaRemoveFailed, func(name string, err error) {
+		fmt.Printf("[%s] tickingarea remove failed name=%s err=%v\n", time.Now().Format(time.RFC3339), name, err)
 	})
 	frame.EventBus().Subscribe(build.EventNameRunChunkGroupWaitLoadStart, func(groupPos define.ChunkPos) {
 		fmt.Printf("[%s] wait load start group=%v\n", time.Now().Format(time.RFC3339), groupPos)
@@ -125,6 +168,12 @@ func registerBuildEvents(frame define.Frame) {
 			fmt.Printf("[%s] command sent %q\n", time.Now().Format(time.RFC3339), command)
 		})
 	*/
+	frame.EventBus().Subscribe(build.EventNameRunItemCleanStart, func(groupPos define.ChunkPos, command string) {
+		fmt.Printf("[%s] item clean start group=%v command=%q\n", time.Now().Format(time.RFC3339), groupPos, command)
+	})
+	frame.EventBus().Subscribe(build.EventNameRunItemCleanFinish, func(groupPos define.ChunkPos, command string) {
+		fmt.Printf("[%s] item clean finish group=%v command=%q\n", time.Now().Format(time.RFC3339), groupPos, command)
+	})
 	frame.EventBus().Subscribe(build.EventNameRunChunkGroupFinish, func() {
 		fmt.Printf("[%s] chunk group finish elapsed=%s\n", time.Now().Format(time.RFC3339), time.Since(groupStartedAt))
 	})

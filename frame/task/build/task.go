@@ -108,9 +108,18 @@ type BuildTask struct {
 	chunkManager *chunk_manager.ChunkManager
 	blockBuilder *block_builder.BlockBuilder
 	limiter      ratelimit.Limiter
+	tickingAreas *tickingAreaRuntime
 	taskMu       sync.Mutex
 	taskCtx      context.Context
 	taskCancel   context.CancelFunc
+
+	preHandleNextChunkGroup       bool
+	preWaitNextChunkLoad          bool
+	preWaitNextChunkTickingArea   bool
+	tickingAreaRequiredSlots      int
+	tickingAreaPreloadSlotsNeeded int
+	preWaitChunkGroupIndex        int
+	preWaitChunkGroupFuture       *chunkGroupPreWaitFuture
 }
 
 func (c BuildTaskConfig) NewTask(frame define.Frame) define.Task {
