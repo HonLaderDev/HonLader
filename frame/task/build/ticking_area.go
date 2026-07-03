@@ -10,7 +10,7 @@ import (
 	"time"
 
 	packet_pb "github.com/RedLaderDev/RedLader-core-api/pb/minecraft/protocol/packet"
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 )
 
 const (
@@ -18,7 +18,7 @@ const (
 	tickingAreaRequiredSlots = 2
 	tickingAreaPreloadSlots  = 3
 	tickingAreaCommandWait   = 3 * time.Second
-	tickingAreaAddPrefix     = "Fatalder"
+	tickingAreaAddPrefix     = "RedLader"
 )
 
 type tickingAreaRuntime struct {

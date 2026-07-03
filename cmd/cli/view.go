@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/RedLaderDev/Fatalder/consts"
+	"github.com/RedLaderDev/RedLader/consts"
 	"github.com/charmbracelet/lipgloss"
 )
 

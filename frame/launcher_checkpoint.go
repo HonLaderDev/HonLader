@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/RedLaderDev/Fatalder/define"
-	task_codec "github.com/RedLaderDev/Fatalder/frame/task"
+	"github.com/RedLaderDev/RedLader/define"
+	task_codec "github.com/RedLaderDev/RedLader/frame/task"
 )
 
 func (l *Launcher) watchTaskCheckpoints() {

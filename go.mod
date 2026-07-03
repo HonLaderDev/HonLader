@@ -1,4 +1,4 @@
-module github.com/RedLaderDev/Fatalder
+module github.com/RedLaderDev/RedLader
 
 go 1.26.4
 
@@ -7,9 +7,12 @@ require (
 	github.com/RedLaderDev/RedLader-core-api v0.0.1
 	github.com/RedLaderDev/RedLader-core-client v0.0.0
 	github.com/RedLaderDev/bedrock-world-operator v0.0.0
+	github.com/adrg/xdg v0.5.3
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
-	github.com/google/uuid v1.6.0
+	github.com/charmbracelet/bubbletea v1.3.10
+	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
+	github.com/spf13/afero v1.15.0
 	go.uber.org/ratelimit v0.3.1
 )
 
@@ -17,19 +20,16 @@ require (
 	atomicgo.dev/cursor v0.2.0 // indirect
 	atomicgo.dev/keyboard v0.2.9 // indirect
 	atomicgo.dev/schedule v0.1.0 // indirect
-	github.com/RedLaderDev/worldswitcher v0.0.0 // indirect
 	github.com/Happy2018new/worldupgrader v1.3.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
+	github.com/RedLaderDev/mousetunnel v0.0.0 // indirect
+	github.com/RedLaderDev/worldswitcher v0.0.0 // indirect
 	github.com/TriM-Organization/bedrock-world-operator v1.6.0 // indirect
 	github.com/Yeah114/go-raknet v1.15.2 // indirect
-	github.com/RedLaderDev/mousetunnel v0.0.0 // indirect
-	github.com/adrg/xdg v0.5.3 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/benbjohnson/clock v1.3.0 // indirect
 	github.com/bytedance/gopkg v0.1.3 // indirect
-	github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/colorprofile v0.2.3-0.20250311203215-f60798e515dc // indirect
-	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.10.1 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
 	github.com/charmbracelet/x/term v0.2.1 // indirect
@@ -47,6 +47,7 @@ require (
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/gookit/color v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
@@ -64,7 +65,6 @@ require (
 	github.com/sandertv/gophertunnel v1.48.1 // indirect
 	github.com/segmentio/fasthash v1.0.3 // indirect
 	github.com/shirou/gopsutil/v3 v3.22.1 // indirect
-	github.com/spf13/afero v1.15.0 // indirect
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect

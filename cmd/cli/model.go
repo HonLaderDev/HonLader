@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/RedLaderDev/Fatalder/define"
-	"github.com/RedLaderDev/Fatalder/utils/data"
+	"github.com/RedLaderDev/RedLader/define"
+	"github.com/RedLaderDev/RedLader/utils/data"
 	tea "github.com/charmbracelet/bubbletea"
 )
 

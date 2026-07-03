@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 )
 
 type buildFieldKind int

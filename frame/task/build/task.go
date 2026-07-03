@@ -4,10 +4,10 @@ import (
 	"context"
 	"sync"
 
-	"github.com/RedLaderDev/Fatalder/define"
-	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/block_builder"
-	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/building_world"
-	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/chunk_manager"
+	"github.com/RedLaderDev/RedLader/define"
+	"github.com/RedLaderDev/RedLader/frame/task/build/utils/block_builder"
+	"github.com/RedLaderDev/RedLader/frame/task/build/utils/building_world"
+	"github.com/RedLaderDev/RedLader/frame/task/build/utils/chunk_manager"
 	"go.uber.org/ratelimit"
 )
 

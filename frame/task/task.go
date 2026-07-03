@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 	"github.com/mitchellh/mapstructure"
 )
 

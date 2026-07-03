@@ -1,6 +1,6 @@
 package build
 
-import "github.com/RedLaderDev/Fatalder/frame"
+import "github.com/RedLaderDev/RedLader/frame"
 
 const (
 	// EventNameInitStart 初始化开始事件。

@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/RedLaderDev/bedrock-world-operator/chunk"
-	"github.com/RedLaderDev/Fatalder/define"
-	"github.com/RedLaderDev/Fatalder/frame"
-	"github.com/RedLaderDev/Fatalder/frame/task/build"
+	"github.com/RedLaderDev/RedLader/define"
+	"github.com/RedLaderDev/RedLader/frame"
+	"github.com/RedLaderDev/RedLader/frame/task/build"
 )
 
 var (

@@ -1,8 +1,8 @@
 package frame
 
 import (
-	"github.com/RedLaderDev/Fatalder/define"
-	"github.com/RedLaderDev/Fatalder/utils/data"
+	"github.com/RedLaderDev/RedLader/define"
+	"github.com/RedLaderDev/RedLader/utils/data"
 	"github.com/spf13/afero"
 )
 

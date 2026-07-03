@@ -6,7 +6,7 @@ import (
 
 	frame_api "github.com/RedLaderDev/RedLader-core-api/frame"
 	client "github.com/RedLaderDev/RedLader-core-client"
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 	"github.com/asaskevich/EventBus"
 )
 

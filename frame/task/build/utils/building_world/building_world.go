@@ -5,7 +5,7 @@ import (
 
 	"github.com/RedLaderDev/bedrock-world-operator/chunk"
 	"github.com/RedLaderDev/bedrock-world-operator/world"
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 )
 
 const (

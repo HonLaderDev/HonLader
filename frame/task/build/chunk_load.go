@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	build_utils "github.com/RedLaderDev/Fatalder/frame/task/build/utils"
+	build_utils "github.com/RedLaderDev/RedLader/frame/task/build/utils"
 
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 )
 
 const (

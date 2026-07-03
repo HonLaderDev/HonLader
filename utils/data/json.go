@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RedLaderDev/Fatalder/utils"
+	"github.com/RedLaderDev/RedLader/utils"
 	"github.com/spf13/afero"
 )
 

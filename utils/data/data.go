@@ -3,9 +3,9 @@ package data
 import (
 	"path/filepath"
 
-	"github.com/RedLaderDev/Fatalder/consts"
-	"github.com/RedLaderDev/Fatalder/define"
-	"github.com/RedLaderDev/Fatalder/utils/storage"
+	"github.com/RedLaderDev/RedLader/consts"
+	"github.com/RedLaderDev/RedLader/define"
+	"github.com/RedLaderDev/RedLader/utils/storage"
 	"github.com/spf13/afero"
 )
 

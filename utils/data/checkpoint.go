@@ -3,7 +3,7 @@ package data
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 )
 
 // SaveCheckpointConfig 保存任务断点配置。

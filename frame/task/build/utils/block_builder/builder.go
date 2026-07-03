@@ -5,9 +5,9 @@ import (
 
 	"github.com/RedLaderDev/bedrock-world-operator/block"
 	"github.com/RedLaderDev/bedrock-world-operator/chunk"
-	"github.com/RedLaderDev/Fatalder/define"
-	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/chunk_fill"
-	"github.com/RedLaderDev/Fatalder/utils"
+	"github.com/RedLaderDev/RedLader/define"
+	"github.com/RedLaderDev/RedLader/frame/task/build/utils/chunk_fill"
+	"github.com/RedLaderDev/RedLader/utils"
 )
 
 type blockInfo struct {

@@ -3,7 +3,7 @@ package data
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/RedLader/define"
 )
 
 // SaveServerConfig 保存服务器配置。
