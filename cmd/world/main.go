@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/EmptyDea-Team/bedrock-world-operator/block"
-	"github.com/EmptyDea-Team/bedrock-world-operator/chunk"
-	"github.com/EmptyDea-Team/bedrock-world-operator/define"
-	"github.com/EmptyDea-Team/bedrock-world-operator/world"
+	"github.com/RedLaderDev/bedrock-world-operator/block"
+	"github.com/RedLaderDev/bedrock-world-operator/chunk"
+	"github.com/RedLaderDev/bedrock-world-operator/define"
+	"github.com/RedLaderDev/bedrock-world-operator/world"
 )
 
 const (

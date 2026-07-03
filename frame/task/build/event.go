@@ -1,5 +1,7 @@
 package build
 
+import "github.com/RedLaderDev/Fatalder/frame"
+
 const (
 	// EventNameInitStart 初始化开始事件。
 	// 参数：无。
@@ -99,5 +101,8 @@ const (
 
 // publish 向任务所属框架发布构建事件。
 func (b *BuildTask) publish(name string, args ...any) {
+	if name == EventNameRunChunkGroupFinish {
+		b.frame.EventBus().Publish(frame.EventNameTaskFrameTaskCheckpoint)
+	}
 	b.frame.EventBus().Publish(name, args...)
 }

@@ -1,12 +1,12 @@
-module github.com/Yeah114/Fatalder
+module github.com/RedLaderDev/Fatalder
 
 go 1.26.4
 
 require (
-	github.com/EmptyDea-Team/EmptyDea-core v0.0.0
-	github.com/EmptyDea-Team/EmptyDea-core-api v0.0.1
-	github.com/EmptyDea-Team/EmptyDea-core-client v0.0.0
-	github.com/EmptyDea-Team/bedrock-world-operator v0.0.0
+	github.com/RedLaderDev/RedLader-core v0.0.0
+	github.com/RedLaderDev/RedLader-core-api v0.0.1
+	github.com/RedLaderDev/RedLader-core-client v0.0.0
+	github.com/RedLaderDev/bedrock-world-operator v0.0.0
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
 	github.com/google/uuid v1.6.0
 	github.com/mitchellh/mapstructure v1.5.0
@@ -17,14 +17,22 @@ require (
 	atomicgo.dev/cursor v0.2.0 // indirect
 	atomicgo.dev/keyboard v0.2.9 // indirect
 	atomicgo.dev/schedule v0.1.0 // indirect
-	github.com/EmptyDea-Team/worldswitcher v0.0.0 // indirect
+	github.com/RedLaderDev/worldswitcher v0.0.0 // indirect
 	github.com/Happy2018new/worldupgrader v1.3.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/TriM-Organization/bedrock-world-operator v1.6.0 // indirect
 	github.com/Yeah114/go-raknet v1.15.2 // indirect
-	github.com/Yeah114/mousetunnel v0.0.0 // indirect
+	github.com/RedLaderDev/mousetunnel v0.0.0 // indirect
+	github.com/adrg/xdg v0.5.3 // indirect
+	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/benbjohnson/clock v1.3.0 // indirect
 	github.com/bytedance/gopkg v0.1.3 // indirect
+	github.com/charmbracelet/bubbletea v1.3.10 // indirect
+	github.com/charmbracelet/colorprofile v0.2.3-0.20250311203215-f60798e515dc // indirect
+	github.com/charmbracelet/lipgloss v1.1.0 // indirect
+	github.com/charmbracelet/x/ansi v0.10.1 // indirect
+	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
+	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/cloudwego/shmipc-go v0.2.0 // indirect
 	github.com/containerd/console v1.0.5 // indirect
@@ -34,6 +42,7 @@ require (
 	github.com/df-mc/go-xsapi v1.0.1 // indirect
 	github.com/df-mc/goleveldb v1.1.9 // indirect
 	github.com/df-mc/jsonc v1.0.5 // indirect
+	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-gl/mathgl v1.2.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
@@ -41,10 +50,17 @@ require (
 	github.com/gookit/color v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
+	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.20 // indirect
 	github.com/mostynb/go-grpc-compression v1.2.3 // indirect
+	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
+	github.com/muesli/cancelreader v0.2.2 // indirect
+	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/pterm/pterm v0.12.83 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/sandertv/gophertunnel v1.48.1 // indirect
 	github.com/segmentio/fasthash v1.0.3 // indirect
 	github.com/shirou/gopsutil/v3 v3.22.1 // indirect
@@ -63,14 +79,14 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/EmptyDea-Team/worldswitcher => ../worldswitcher
+replace github.com/RedLaderDev/worldswitcher => ../worldswitcher
 
-replace github.com/EmptyDea-Team/bedrock-world-operator => ../bedrock-world-operator
+replace github.com/RedLaderDev/bedrock-world-operator => ../bedrock-world-operator
 
-replace github.com/EmptyDea-Team/EmptyDea-core-api => ../EmptyDea-core-api
+replace github.com/RedLaderDev/RedLader-core-api => ../RedLader-core-api
 
-replace github.com/EmptyDea-Team/EmptyDea-core-client => ../EmptyDea-core-client
+replace github.com/RedLaderDev/RedLader-core-client => ../RedLader-core-client
 
-replace github.com/EmptyDea-Team/EmptyDea-core => ../EmptyDea-core
+replace github.com/RedLaderDev/RedLader-core => ../RedLader-core
 
-replace github.com/Yeah114/mousetunnel => ../mousetunnel
+replace github.com/RedLaderDev/mousetunnel => ../mousetunnel

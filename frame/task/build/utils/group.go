@@ -3,7 +3,7 @@ package utils
 import (
 	"math"
 
-	"github.com/Yeah114/Fatalder/define"
+	"github.com/RedLaderDev/Fatalder/define"
 )
 
 // GroupIndex 根据区块坐标和组边长计算其所在的区块组索引。

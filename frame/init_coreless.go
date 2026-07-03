@@ -4,9 +4,9 @@ package frame
 
 import "fmt"
 
-func (f *Frame) initClient() error {
+func (f *TaskFrame) initClient() error {
 	if f.client == nil {
-		return fmt.Errorf("Frame.initClient: nil client")
+		return fmt.Errorf("TaskFrame.initClient: nil client")
 	}
 	return nil
 }

@@ -6,13 +6,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/EmptyDea-Team/bedrock-world-operator/block"
-	bwo_world "github.com/EmptyDea-Team/bedrock-world-operator/world"
-	"github.com/Yeah114/Fatalder/define"
-	build_utils "github.com/Yeah114/Fatalder/frame/task/build/utils"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/block_builder"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/building_world"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/chunk_manager"
+	"github.com/RedLaderDev/bedrock-world-operator/block"
+	bwo_world "github.com/RedLaderDev/bedrock-world-operator/world"
+	"github.com/RedLaderDev/Fatalder/define"
+	build_utils "github.com/RedLaderDev/Fatalder/frame/task/build/utils"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/block_builder"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/building_world"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/chunk_manager"
 	"go.uber.org/ratelimit"
 )
 

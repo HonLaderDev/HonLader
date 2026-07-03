@@ -3,9 +3,9 @@ package building_world
 import (
 	"fmt"
 
-	"github.com/EmptyDea-Team/bedrock-world-operator/chunk"
-	"github.com/EmptyDea-Team/bedrock-world-operator/world"
-	"github.com/Yeah114/Fatalder/define"
+	"github.com/RedLaderDev/bedrock-world-operator/chunk"
+	"github.com/RedLaderDev/bedrock-world-operator/world"
+	"github.com/RedLaderDev/Fatalder/define"
 )
 
 const (

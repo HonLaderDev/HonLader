@@ -1,8 +1,8 @@
 package chunk_manager
 
 import (
-	"github.com/Yeah114/Fatalder/define"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/building_world"
+	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/building_world"
 )
 
 // ChunkManager 按固定边长的区块组批量读取建筑范围内的区块。

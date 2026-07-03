@@ -3,11 +3,11 @@ package block_builder
 import (
 	"fmt"
 
-	"github.com/EmptyDea-Team/bedrock-world-operator/block"
-	"github.com/EmptyDea-Team/bedrock-world-operator/chunk"
-	"github.com/Yeah114/Fatalder/define"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/chunk_fill"
-	"github.com/Yeah114/Fatalder/utils"
+	"github.com/RedLaderDev/bedrock-world-operator/block"
+	"github.com/RedLaderDev/bedrock-world-operator/chunk"
+	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/chunk_fill"
+	"github.com/RedLaderDev/Fatalder/utils"
 )
 
 type blockInfo struct {

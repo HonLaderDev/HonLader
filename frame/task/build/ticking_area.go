@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	packet_pb "github.com/EmptyDea-Team/EmptyDea-core-api/pb/minecraft/protocol/packet"
-	"github.com/Yeah114/Fatalder/define"
+	packet_pb "github.com/RedLaderDev/RedLader-core-api/pb/minecraft/protocol/packet"
+	"github.com/RedLaderDev/Fatalder/define"
 )
 
 const (

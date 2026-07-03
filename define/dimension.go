@@ -1,6 +1,6 @@
 package define
 
-import bwo_define "github.com/EmptyDea-Team/bedrock-world-operator/define"
+import bwo_define "github.com/RedLaderDev/bedrock-world-operator/define"
 
 type Dimension = bwo_define.Dimension
 type ChunkPos = bwo_define.ChunkPos

@@ -5,15 +5,15 @@ package frame
 import (
 	"fmt"
 
-	"github.com/EmptyDea-Team/EmptyDea-core/frame/EmptyDeaCore/client"
+	"github.com/RedLaderDev/RedLader-core/frame/RedLaderCore/client"
 )
 
-func (f *Frame) initClient() error {
+func (f *TaskFrame) initClient() error {
 	if f.client != nil {
 		return nil
 	}
 	if !f.config.Embedded {
-		return fmt.Errorf("Frame.initClient: nil client")
+		return fmt.Errorf("TaskFrame.initClient: nil client")
 	}
 
 	f.client = client.New(nil)

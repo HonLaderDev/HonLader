@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/EmptyDea-Team/bedrock-world-operator/chunk"
-	"github.com/Yeah114/Fatalder/define"
+	"github.com/RedLaderDev/bedrock-world-operator/chunk"
+	"github.com/RedLaderDev/Fatalder/define"
 )
 
 // chunkGroupData 保存一个区块组读取完成后的构建输入。

@@ -4,10 +4,10 @@ import (
 	"context"
 	"sync"
 
-	"github.com/Yeah114/Fatalder/define"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/block_builder"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/building_world"
-	"github.com/Yeah114/Fatalder/frame/task/build/utils/chunk_manager"
+	"github.com/RedLaderDev/Fatalder/define"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/block_builder"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/building_world"
+	"github.com/RedLaderDev/Fatalder/frame/task/build/utils/chunk_manager"
 	"go.uber.org/ratelimit"
 )
 
@@ -103,7 +103,7 @@ type BuildTask struct {
 	// BuildTaskCheckpoint 构建任务断点存档数据
 	BuildTaskCheckpoint `task:"checkpoint"`
 
-	frame        define.Frame
+	frame        define.TaskFrame
 	world        *building_world.BuildingWorld
 	chunkManager *chunk_manager.ChunkManager
 	blockBuilder *block_builder.BlockBuilder
@@ -122,7 +122,7 @@ type BuildTask struct {
 	preWaitChunkGroupFuture       *chunkGroupPreWaitFuture
 }
 
-func (c BuildTaskConfig) NewTask(frame define.Frame) define.Task {
+func (c BuildTaskConfig) NewTask(frame define.TaskFrame) define.Task {
 	task := new(BuildTask)
 	task.BuildTaskConfig = c
 	task.frame = frame

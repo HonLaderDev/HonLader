@@ -3,13 +3,17 @@ package define
 import (
 	"context"
 
-	frame_api "github.com/EmptyDea-Team/EmptyDea-core-api/frame"
+	frame_api "github.com/RedLaderDev/RedLader-core-api/frame"
 	"github.com/asaskevich/EventBus"
 )
 
-type Frame interface {
+type TaskFrame interface {
 	Client() frame_api.Client
 	EventBus() EventBus.Bus
+	// 任务组名称
+	TaskGroupName() string
+	// 设置任务组名称
+	WithTaskGroupName(name string) TaskFrame
 	// 所有任务
 	Tasks() []Task
 	// 当前任务索引
@@ -17,7 +21,7 @@ type Frame interface {
 	// 连接并检查 Core 可用性
 	Connect(ctx context.Context) error
 	// 添加任务
-	AddTask(task Task) Frame
+	AddTask(task Task) TaskFrame
 	// 运行所有任务
 	Start() error
 	// 暂停当前任务
@@ -32,7 +36,7 @@ type Frame interface {
 
 type Task interface {
 	Name() string
-	Frame() Frame
+	TaskFrame() TaskFrame
 	Start() error
 	Pause() error
 	Resume() error

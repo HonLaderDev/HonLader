@@ -1,7 +1,7 @@
 package build
 
-import "github.com/Yeah114/Fatalder/define"
+import "github.com/RedLaderDev/Fatalder/define"
 
-func (b *BuildTask) Frame() define.Frame {
+func (b *BuildTask) TaskFrame() define.TaskFrame {
 	return b.frame
 }

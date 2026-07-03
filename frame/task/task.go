@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/RedLaderDev/Fatalder/define"
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -14,39 +15,33 @@ const (
 	TagNameCheckpoint = "checkpoint"
 )
 
-// TaskInfo 是任务持久化信息，包含任务配置和断点数据。
-type TaskInfo struct {
-	Config     map[string]any `mapstructure:"config"`
-	Checkpoint map[string]any `mapstructure:"checkpoint"`
-}
-
 // MarshalTask 将任务结构体拆分为配置和断点数据。
-func MarshalTask(v any) (TaskInfo, error) {
+func MarshalTask(v any) (define.TaskInfo, error) {
 	configValue, err := taskSectionValue(v, TagNameConfig)
 	if err != nil {
-		return TaskInfo{}, fmt.Errorf("find task config: %w", err)
+		return define.TaskInfo{}, fmt.Errorf("find task config: %w", err)
 	}
 	config, err := MarshalConfig(configValue)
 	if err != nil {
-		return TaskInfo{}, fmt.Errorf("marshal task config: %w", err)
+		return define.TaskInfo{}, fmt.Errorf("marshal task config: %w", err)
 	}
 
 	checkpointValue, err := taskSectionValue(v, TagNameCheckpoint)
 	if err != nil {
-		return TaskInfo{}, fmt.Errorf("find task checkpoint: %w", err)
+		return define.TaskInfo{}, fmt.Errorf("find task checkpoint: %w", err)
 	}
 	checkpoint, err := MarshalCheckpoint(checkpointValue)
 	if err != nil {
-		return TaskInfo{}, fmt.Errorf("marshal task checkpoint: %w", err)
+		return define.TaskInfo{}, fmt.Errorf("marshal task checkpoint: %w", err)
 	}
-	return TaskInfo{
+	return define.TaskInfo{
 		Config:     config,
 		Checkpoint: checkpoint,
 	}, nil
 }
 
 // UnmarshalTask 将任务持久化信息写入任务结构体指针。
-func UnmarshalTask(info TaskInfo, v any) error {
+func UnmarshalTask(info define.TaskInfo, v any) error {
 	configValue, err := taskSectionPointer(v, TagNameConfig)
 	if err != nil {
 		return fmt.Errorf("find task config: %w", err)
