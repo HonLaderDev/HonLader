@@ -3,7 +3,7 @@ package data
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/RedLader/define"
+	"github.com/HonLaderDev/HonLader/define"
 )
 
 // SaveTaskConfig 保存任务组配置。

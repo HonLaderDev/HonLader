@@ -1,8 +1,8 @@
 package frame
 
 import (
-	"github.com/RedLaderDev/RedLader/define"
-	"github.com/RedLaderDev/RedLader/utils/data"
+	"github.com/HonLaderDev/HonLader/define"
+	"github.com/HonLaderDev/HonLader/utils/data"
 	"github.com/spf13/afero"
 )
 

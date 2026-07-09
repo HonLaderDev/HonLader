@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/RedLaderDev/RedLader/define"
-	"github.com/RedLaderDev/RedLader/utils/data"
+	"github.com/HonLaderDev/HonLader/define"
+	"github.com/HonLaderDev/HonLader/utils/data"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -461,10 +461,11 @@ func (m *model) saveServerForm() {
 		return
 	}
 	config := define.ServerConfig{
+		Name:           name,
 		ServerCode:     strings.TrimSpace(m.serverForm.values[1]),
 		ServerPassword: m.serverForm.values[2],
 	}
-	if err := m.dataManager.SaveServerConfig(name, config); err != nil {
+	if err := m.dataManager.SaveServerConfig(config); err != nil {
 		m.dialog = fmt.Sprintf("保存服务器配置失败：%v", err)
 		return
 	}

@@ -18,7 +18,7 @@ type DataManager interface {
 
 	EnsureLayout() error
 
-	SaveServerConfig(name string, config ServerConfig) error
+	SaveServerConfig(config ServerConfig) error
 	LoadServerConfig(name string) (ServerConfig, bool, error)
 	ListServerConfigs() (map[string]ServerConfig, error)
 	DeleteServerConfig(name string) (bool, error)

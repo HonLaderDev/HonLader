@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	frame_api "github.com/RedLaderDev/RedLader-core-api/frame"
-	client "github.com/RedLaderDev/RedLader-core-client"
-	"github.com/RedLaderDev/RedLader/define"
+	frame_api "github.com/HonLaderDev/HonLader-core-api/frame"
+	client "github.com/HonLaderDev/HonLader-core-client"
+	"github.com/HonLaderDev/HonLader/define"
 	"github.com/asaskevich/EventBus"
 )
 
@@ -39,7 +39,7 @@ func (c TaskFrameConfig) New(coreClient frame_api.Client) *TaskFrame {
 	}
 }
 
-// Client 返回底层 RedLader Core 客户端。
+// Client 返回底层 HonLader Core 客户端。
 func (f *TaskFrame) Client() frame_api.Client {
 	return f.client
 }

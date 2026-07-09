@@ -3,9 +3,9 @@ package chunk_manager
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/bedrock-world-operator/chunk"
-	"github.com/RedLaderDev/RedLader/define"
-	build_utils "github.com/RedLaderDev/RedLader/frame/task/build/utils"
+	"github.com/HonLaderDev/bedrock-world-operator/chunk"
+	"github.com/HonLaderDev/HonLader/define"
+	build_utils "github.com/HonLaderDev/HonLader/frame/task/build/utils"
 )
 
 // ChunkGroup 读取指定索引对应的一组区块，不推进内部进度。

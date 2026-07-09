@@ -3,12 +3,11 @@ package data
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/RedLader/define"
+	"github.com/HonLaderDev/HonLader/define"
 )
 
 // SaveServerConfig 保存服务器配置。
-func (m *DataManager) SaveServerConfig(name string, config define.ServerConfig) error {
-	config.Name = name
+func (m *DataManager) SaveServerConfig(config define.ServerConfig) error {
 	updateConfigTime(&config.CreatedAt, &config.UpdatedAt)
 	if err := saveJSON(m.FileSystem(), m.serversDir, config.CreatedAt, config); err != nil {
 		return fmt.Errorf("DataManager.SaveServerConfig: %w", err)

@@ -7,8 +7,8 @@ import (
 	"math"
 	"time"
 
-	packet_pb "github.com/RedLaderDev/RedLader-core-api/pb/minecraft/protocol/packet"
-	"github.com/RedLaderDev/RedLader/define"
+	packet_pb "github.com/HonLaderDev/HonLader-core-api/pb/minecraft/protocol/packet"
+	"github.com/HonLaderDev/HonLader/define"
 )
 
 // takeCommandLimit 在发送命令前应用任务限速器。

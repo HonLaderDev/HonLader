@@ -1,12 +1,12 @@
-module github.com/RedLaderDev/RedLader
+module github.com/HonLaderDev/HonLader
 
 go 1.26.4
 
 require (
-	github.com/RedLaderDev/RedLader-core v0.0.0
-	github.com/RedLaderDev/RedLader-core-api v0.0.1
-	github.com/RedLaderDev/RedLader-core-client v0.0.0
-	github.com/RedLaderDev/bedrock-world-operator v0.0.0
+	github.com/HonLaderDev/HonLader-core v0.0.0
+	github.com/HonLaderDev/HonLader-core-api v0.0.1
+	github.com/HonLaderDev/HonLader-core-client v0.0.0
+	github.com/HonLaderDev/bedrock-world-operator v0.0.0
 	github.com/adrg/xdg v0.5.3
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
 	github.com/charmbracelet/bubbletea v1.3.10
@@ -22,8 +22,8 @@ require (
 	atomicgo.dev/schedule v0.1.0 // indirect
 	github.com/Happy2018new/worldupgrader v1.3.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/RedLaderDev/mousetunnel v0.0.0 // indirect
-	github.com/RedLaderDev/worldswitcher v0.0.0 // indirect
+	github.com/HonLaderDev/mousetunnel v0.0.0 // indirect
+	github.com/HonLaderDev/worldswitcher v0.0.0 // indirect
 	github.com/TriM-Organization/bedrock-world-operator v1.6.0 // indirect
 	github.com/Yeah114/go-raknet v1.15.2 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
@@ -79,14 +79,14 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 )
 
-replace github.com/RedLaderDev/worldswitcher => ../worldswitcher
+replace github.com/HonLaderDev/worldswitcher => ../worldswitcher
 
-replace github.com/RedLaderDev/bedrock-world-operator => ../bedrock-world-operator
+replace github.com/HonLaderDev/bedrock-world-operator => ../bedrock-world-operator
 
-replace github.com/RedLaderDev/RedLader-core-api => ../RedLader-core-api
+replace github.com/HonLaderDev/HonLader-core-api => ../HonLader-core-api
 
-replace github.com/RedLaderDev/RedLader-core-client => ../RedLader-core-client
+replace github.com/HonLaderDev/HonLader-core-client => ../HonLader-core-client
 
-replace github.com/RedLaderDev/RedLader-core => ../RedLader-core
+replace github.com/HonLaderDev/HonLader-core => ../HonLader-core
 
-replace github.com/RedLaderDev/mousetunnel => ../mousetunnel
+replace github.com/HonLaderDev/mousetunnel => ../mousetunnel

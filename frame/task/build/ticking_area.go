@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	packet_pb "github.com/RedLaderDev/RedLader-core-api/pb/minecraft/protocol/packet"
-	"github.com/RedLaderDev/RedLader/define"
+	packet_pb "github.com/HonLaderDev/HonLader-core-api/pb/minecraft/protocol/packet"
+	"github.com/HonLaderDev/HonLader/define"
 )
 
 const (
@@ -18,7 +18,7 @@ const (
 	tickingAreaRequiredSlots = 2
 	tickingAreaPreloadSlots  = 3
 	tickingAreaCommandWait   = 3 * time.Second
-	tickingAreaAddPrefix     = "RedLader"
+	tickingAreaAddPrefix     = "HonLader"
 )
 
 type tickingAreaRuntime struct {

@@ -1,8 +1,8 @@
 package chunk_manager
 
 import (
-	"github.com/RedLaderDev/RedLader/define"
-	"github.com/RedLaderDev/RedLader/frame/task/build/utils/building_world"
+	"github.com/HonLaderDev/HonLader/define"
+	"github.com/HonLaderDev/HonLader/frame/task/build/utils/building_world"
 )
 
 // ChunkManager 按固定边长的区块组批量读取建筑范围内的区块。

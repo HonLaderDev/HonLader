@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/RedLader/define"
+	"github.com/HonLaderDev/HonLader/define"
 )
 
 func (m model) title() string {
@@ -99,13 +99,13 @@ func (m model) items() []menuItem {
 				action: actionSelectBuildServer,
 			})
 		}
-		items = append(items, menuItem{title: "返回主菜单", detail: "回到 RedLader CLI 主菜单。", action: actionBackMain})
+		items = append(items, menuItem{title: "返回主菜单", detail: "回到 HonLader CLI 主菜单。", action: actionBackMain})
 		return items
 	case pageMore:
 		return []menuItem{
 			{title: "任务组配置", detail: "查看、选择和维护保存下来的构建任务组。", action: actionTaskGroups},
 			{title: "服务器配置", detail: "维护连接目标、嵌入式运行模式和后续构建需要的服务器参数。", action: actionServers},
-			{title: "返回主菜单", detail: "回到 RedLader CLI 主菜单。", action: actionBackMain},
+			{title: "返回主菜单", detail: "回到 HonLader CLI 主菜单。", action: actionBackMain},
 		}
 	case pageServers:
 		items := []menuItem{

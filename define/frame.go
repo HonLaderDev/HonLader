@@ -3,7 +3,7 @@ package define
 import (
 	"context"
 
-	frame_api "github.com/RedLaderDev/RedLader-core-api/frame"
+	frame_api "github.com/HonLaderDev/HonLader-core-api/frame"
 	"github.com/asaskevich/EventBus"
 )
 

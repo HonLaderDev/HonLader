@@ -5,7 +5,7 @@ package frame
 import (
 	"fmt"
 
-	"github.com/RedLaderDev/RedLader-core/frame/RedLaderCore/client"
+	"github.com/HonLaderDev/HonLader-core/frame/HonLaderCore/client"
 )
 
 func (f *TaskFrame) initClient() error {

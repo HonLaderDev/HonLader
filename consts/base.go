@@ -2,7 +2,7 @@
 package consts
 
 var (
-	Name    = "RedLader"
+	Name    = "HonLader"
 	Version = "0.0.0"
 	Authors = []string{
 		"Yeah114",

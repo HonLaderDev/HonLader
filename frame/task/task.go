@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/RedLaderDev/RedLader/define"
+	"github.com/HonLaderDev/HonLader/define"
 	"github.com/mitchellh/mapstructure"
 )
 

@@ -3,8 +3,8 @@ package chunk_manager
 import (
 	"math"
 
-	"github.com/RedLaderDev/RedLader/define"
-	build_utils "github.com/RedLaderDev/RedLader/frame/task/build/utils"
+	"github.com/HonLaderDev/HonLader/define"
+	build_utils "github.com/HonLaderDev/HonLader/frame/task/build/utils"
 )
 
 // ChunkPosGenerator 根据进度索引生成需要处理的区块组坐标。
