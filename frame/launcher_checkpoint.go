@@ -9,9 +9,6 @@ import (
 )
 
 func (l *Launcher) watchTaskCheckpoints() {
-	l.EventBus().SubscribeAsync(EventNameTaskFrameTaskStart, func(index int) {
-		l.saveCheckpoint()
-	}, false)
 	l.EventBus().SubscribeAsync(EventNameTaskFrameTaskFinish, func(index int) {
 		l.saveCheckpoint()
 	}, false)
@@ -59,8 +56,16 @@ func (l *Launcher) checkpointConfig() (define.CheckpointConfig, error) {
 		}
 		taskInfos = append(taskInfos, info)
 	}
+	server := define.ServerConfig{}
+	if provider, ok := l.taskFrame.(interface{ CurrentServerConfig() define.ServerConfig }); ok {
+		server = provider.CurrentServerConfig()
+	}
+	if server.Metadata.Name == "" {
+		server.Metadata.Name = server.ServerCode
+	}
 	return define.CheckpointConfig{
 		Tasks:            taskInfos,
 		CurrentTaskIndex: l.CurrentTaskIndex(),
+		Server:           server,
 	}, nil
 }

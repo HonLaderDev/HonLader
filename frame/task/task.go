@@ -17,6 +17,10 @@ const (
 
 // MarshalTask 将任务结构体拆分为配置和断点数据。
 func MarshalTask(v any) (define.TaskInfo, error) {
+	task, ok := v.(define.Task)
+	if !ok {
+		return define.TaskInfo{}, fmt.Errorf("task must implement define.Task")
+	}
 	configValue, err := taskSectionValue(v, TagNameConfig)
 	if err != nil {
 		return define.TaskInfo{}, fmt.Errorf("find task config: %w", err)
@@ -35,6 +39,7 @@ func MarshalTask(v any) (define.TaskInfo, error) {
 		return define.TaskInfo{}, fmt.Errorf("marshal task checkpoint: %w", err)
 	}
 	return define.TaskInfo{
+		TaskName:   task.Name(),
 		Config:     config,
 		Checkpoint: checkpoint,
 	}, nil

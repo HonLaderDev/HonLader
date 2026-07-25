@@ -46,7 +46,7 @@ func NewDefaultTextUIControl(in io.Reader, out io.Writer) *DefaultTextUIControl 
 func (d *DefaultTextUIControl) Run() error {
 	defer d.cancel()
 	d.wg.Add(1)
-	go d.readLoop()
+	go d.ReadLoop()
 
 	// 阻塞等待读取协程退出
 	d.wg.Wait()
@@ -59,8 +59,8 @@ func (d *DefaultTextUIControl) Run() error {
 	}
 }
 
-// readLoop 后台持续读取标准输入，仅由Run启动
-func (d *DefaultTextUIControl) readLoop() {
+// ReadLoop 后台持续读取标准输入，仅由Run启动
+func (d *DefaultTextUIControl) ReadLoop() {
 	defer d.wg.Done()
 	for {
 		select {

@@ -123,6 +123,7 @@ type BuildTask struct {
 }
 
 func (c BuildTaskConfig) NewTask(frame define.TaskFrame) define.Task {
+	c.FillDefault()
 	task := new(BuildTask)
 	task.BuildTaskConfig = c
 	task.frame = frame

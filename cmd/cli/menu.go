@@ -94,7 +94,7 @@ func (m model) items() []menuItem {
 		items := make([]menuItem, 0, len(m.servers)+1)
 		for _, server := range m.servers {
 			items = append(items, menuItem{
-				title:  server.Name,
+				title:  server.Metadata.Name,
 				detail: serverDetail(server),
 				action: actionSelectBuildServer,
 			})
@@ -113,7 +113,7 @@ func (m model) items() []menuItem {
 		}
 		for _, server := range m.servers {
 			items = append(items, menuItem{
-				title:  server.Name,
+				title:  server.Metadata.Name,
 				detail: serverDetail(server),
 				action: actionViewServer,
 			})
@@ -148,11 +148,11 @@ func (m model) selectedServerName() string {
 	if m.serverIndex < 0 || m.serverIndex >= len(m.servers) {
 		return "未知"
 	}
-	return m.servers[m.serverIndex].Name
+	return m.servers[m.serverIndex].Metadata.Name
 }
 
 func serverDetail(server define.ServerConfig) string {
-	return fmt.Sprintf("服务器码：%s\n创建时间：%s", emptyText(server.ServerCode), server.CreatedAt.Format("2006-01-02 15:04:05"))
+	return fmt.Sprintf("服务器码：%s\n创建时间：%s", emptyText(server.ServerCode), server.Metadata.CreatedAt.Format("2006-01-02 15:04:05"))
 }
 
 func emptyText(value string) string {

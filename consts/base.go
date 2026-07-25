@@ -5,6 +5,6 @@ var (
 	Name    = "HonLader"
 	Version = "0.0.0"
 	Authors = []string{
-		"Yeah114",
+		"You",
 	}
 )

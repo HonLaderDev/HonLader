@@ -186,7 +186,7 @@ func (m *model) fillDefaultBuildTaskName() {
 	if strings.TrimSpace(m.buildForm.values[buildKeyName]) != "" || m.buildServer == nil {
 		return
 	}
-	m.buildForm.values[buildKeyName] = fmt.Sprintf("%s-%s", m.buildServer.Name, time.Now().Format("2006-01-02 15:04:05"))
+	m.buildForm.values[buildKeyName] = fmt.Sprintf("%s-%s", m.buildServer.Metadata.Name, time.Now().Format("2006-01-02 15:04:05"))
 }
 
 func (m *model) toggleBuildBool(key string) {
@@ -221,7 +221,7 @@ func (m *model) saveBuildForm() {
 	}
 	m.page = pageMain
 	m.cursor = 0
-	m.dialog = fmt.Sprintf("已保存构建任务组：%s\n服务器配置：%s", name, m.buildServer.Name)
+	m.dialog = fmt.Sprintf("已保存构建任务组：%s\n服务器配置：%s", name, m.buildServer.Metadata.Name)
 	m.buildForm = buildForm{}
 	m.buildServer = nil
 }

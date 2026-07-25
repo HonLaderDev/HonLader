@@ -6,10 +6,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 	"github.com/HonLaderDev/HonLader/define"
 	"github.com/HonLaderDev/HonLader/frame"
 	"github.com/HonLaderDev/HonLader/frame/task/build"
+	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 )
 
 var (
@@ -18,7 +18,7 @@ var (
 	sourceDimension = define.Dimension(define.DimensionIDOverworld)
 	targetDimension = define.Dimension(define.DimensionIDOverworld)
 
-	speed          = 8000
+	speed          = 3000
 	chunkGroupSide = 2
 )
 
@@ -37,16 +37,13 @@ func main() {
 func run() error {
 	ctx := context.Background()
 
-	frame := frame.TaskFrameConfig{
-		ClientConfig: frame.ClientConfig{
-			AuthServer:     "http://127.0.0.1:8080",
-			UserToken:      `{"emulator":1,"is_guest":false,"mac_addr":"0ffbc255e3015d3880142bfd6fdefad4","ram":"1035337728","rom":"134208294912","sauth_json":"{\"aim_info\":\"{\\\"aim\\\":\\\"127.0.0.1\\\",\\\"country\\\":\\\"CN\\\",\\\"tz\\\":\\\"+0800\\\",\\\"tzid\\\":\\\"Asia/Shanghai\\\",\\\"celluar_ip\\\":\\\"\\\",\\\"operator\\\":\\\"\\\",\\\"is_vpn_enabled\\\":false}\",\"app_channel\":\"4399com\",\"client_login_sn\":\"57f9ee2359184384915e0e8a05885881\",\"deviceid\":\"57f9ee2359184384915e0e8a05885881\",\"gameid\":\"x19\",\"gas_token\":\"\",\"get_access_token\":\"1\",\"ip\":\"127.0.0.1\",\"is_unisdk_guest\":0,\"login_channel\":\"4399com\",\"platform\":\"ad\",\"realname\":\"{\\\"realname_type\\\":\\\"0\\\"}\",\"sdk_version\":\"1.0.0\",\"sdkuid\":\"1361225243\",\"sessionid\":\"1361225243|1ff2124b4da965fc21cea41bf2ccab3e|44770||e12ec03e0edb30304aec7dab8a465e56|c10b25a84904f5361b1e9356d669161b|1783335716|4399\",\"source_app_channel\":\"4399com\",\"source_platform\":\"ad\",\"udid\":\"7ac1f87f59205290\"}"}`,
-			ServerCode:     "48285363",
-			ServerPassword: "",
-		},
-		Embedded: true,
-	}.New(nil)
-	if err := frame.Connect(ctx); err != nil {
+	frame := frame.TaskFrameConfig{Embedded: true}.New(nil)
+	if err := frame.Connect(ctx, define.ConnectConfig{
+		//AuthServer: "http://127.0.0.1:8080",
+		AuthServer: "http://127.0.0.1:18080/api/honlader",
+		AuthToken:  `{"emulator":1,"is_guest":false,"mac_addr":"7949ea2289b41158ca82583a854b39ec","ram":"1035337728","rom":"134208294912","sauth_json":"{\"aim_info\":\"{\\\"aim\\\":\\\"127.0.0.1\\\",\\\"country\\\":\\\"CN\\\",\\\"tz\\\":\\\"+0800\\\",\\\"tzid\\\":\\\"Asia/Shanghai\\\",\\\"celluar_ip\\\":\\\"\\\",\\\"operator\\\":\\\"\\\",\\\"is_vpn_enabled\\\":false}\",\"app_channel\":\"4399com\",\"client_login_sn\":\"0f684e6777e24a828c6f1b29c5a2e8f4\",\"deviceid\":\"0f684e6777e24a828c6f1b29c5a2e8f4\",\"gameid\":\"x19\",\"gas_token\":\"\",\"get_access_token\":\"1\",\"ip\":\"127.0.0.1\",\"is_unisdk_guest\":0,\"login_channel\":\"4399com\",\"platform\":\"ad\",\"realname\":\"{\\\"realname_type\\\":\\\"0\\\"}\",\"sdk_version\":\"1.0.0\",\"sdkuid\":\"1379465690\",\"sessionid\":\"1379465690|af702923f520ef08d77bff46b5b40b6e|44770||a32cfbc4b4c5602e7255e40d912923a1|0de83359ba62ad17b8a5b328cea25e5f|1785077208|4399\",\"source_app_channel\":\"4399com\",\"source_platform\":\"ad\",\"udid\":\"520559a8e76beca0\"}"}`,
+		ServerCode: "48285363",
+	}); err != nil {
 		return fmt.Errorf("connect frame: %w", err)
 	}
 	registerBuildEvents(frame)

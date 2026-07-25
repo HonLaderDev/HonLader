@@ -3,7 +3,6 @@ package data
 import (
 	"path/filepath"
 
-	"github.com/HonLaderDev/HonLader/consts"
 	"github.com/HonLaderDev/HonLader/define"
 	"github.com/HonLaderDev/HonLader/utils/storage"
 	"github.com/spf13/afero"
@@ -30,19 +29,18 @@ func NewDataManager(s define.Storage) *DataManager {
 		s = storage.NewDefaultStorage()
 	}
 
-	configDir := filepath.Join(s.ConfigDir(), consts.Name)
-	dataDir := filepath.Join(s.DataDir(), consts.Name)
+	dataDir := s.DataDir()
 	manager := &DataManager{
 		storage: s,
 
-		configDir: configDir,
+		configDir: dataDir,
 		dataDir:   dataDir,
 		tmpDir:    filepath.Join(dataDir, TmpDir),
 
-		tasksDir:       filepath.Join(configDir, TasksDir),
-		checkpointsDir: filepath.Join(configDir, CheckpointsDir),
-		serversDir:     filepath.Join(configDir, ServersDir),
-		buildingsDir:   filepath.Join(configDir, BuildingsDir),
+		tasksDir:       filepath.Join(dataDir, TasksDir),
+		checkpointsDir: filepath.Join(dataDir, CheckpointsDir),
+		serversDir:     filepath.Join(dataDir, ServersDir),
+		buildingsDir:   filepath.Join(dataDir, BuildingsDir),
 		exportsDir:     filepath.Join(dataDir, ExportsDir),
 	}
 	_ = manager.EnsureLayout()

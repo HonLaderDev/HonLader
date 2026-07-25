@@ -3,11 +3,11 @@ package block_builder
 import (
 	"fmt"
 
-	"github.com/HonLaderDev/bedrock-world-operator/block"
-	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 	"github.com/HonLaderDev/HonLader/define"
 	"github.com/HonLaderDev/HonLader/frame/task/build/utils/chunk_fill"
 	"github.com/HonLaderDev/HonLader/utils"
+	"github.com/HonLaderDev/bedrock-world-operator/block"
+	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 )
 
 type blockInfo struct {
@@ -71,21 +71,27 @@ func (b *BlockBuilder) setBlockCommands(chunks map[define.ChunkPos]*chunk.Chunk,
 		}
 		offsetX := int(chunkPos.X()-groupPos.X()) * 16
 		offsetZ := int(chunkPos.Z()-groupPos.Z()) * 16
-		for x := range 16 {
-			for z := range 16 {
-				for y := c.Range().Min(); y <= c.Range().Max(); y++ {
-					info := b.blockInfo(c.Block(uint8(x), int16(y), uint8(z), 0))
-					if info.isAir {
-						continue
+		for subIndex, sub := range c.Sub() {
+			if sub == nil || sub.Empty() {
+				continue
+			}
+			baseY := int(c.SubY(int16(subIndex)))
+			for x := range 16 {
+				for z := range 16 {
+					for y := range 16 {
+						info := b.blockInfo(sub.Block(byte(x), byte(y), byte(z), 0))
+						if info.isAir {
+							continue
+						}
+						commands = append(commands, fmt.Sprintf(
+							"setblock %d %d %d %s %s\n",
+							startPos.X()+offsetX+x,
+							startPos.Y()+baseY+y,
+							startPos.Z()+offsetZ+z,
+							info.name,
+							info.state,
+						))
 					}
-					commands = append(commands, fmt.Sprintf(
-						"setblock %d %d %d %s %s\n",
-						startPos.X()+offsetX+x,
-						startPos.Y()+y,
-						startPos.Z()+offsetZ+z,
-						info.name,
-						info.state,
-					))
 				}
 			}
 		}

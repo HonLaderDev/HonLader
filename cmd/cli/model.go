@@ -282,7 +282,7 @@ func (m *model) reloadServers() {
 		m.servers = append(m.servers, config)
 	}
 	sort.Slice(m.servers, func(i int, j int) bool {
-		return m.servers[i].CreatedAt.Before(m.servers[j].CreatedAt)
+		return m.servers[i].Metadata.CreatedAt.Before(m.servers[j].Metadata.CreatedAt)
 	})
 }
 
@@ -313,8 +313,8 @@ func (m *model) startEditServerForm() {
 	m.page = pageServerForm
 	m.cursor = 0
 	m.dialog = ""
-	m.serverForm = serverForm{edit: true, oldName: server.Name}
-	m.serverForm.values[0] = server.Name
+	m.serverForm = serverForm{edit: true, oldName: server.Metadata.Name}
+	m.serverForm.values[0] = server.Metadata.Name
 	m.serverForm.values[1] = server.ServerCode
 	m.serverForm.values[2] = server.ServerPassword
 }
@@ -461,7 +461,7 @@ func (m *model) saveServerForm() {
 		return
 	}
 	config := define.ServerConfig{
-		Name:           name,
+		Metadata:       define.Metadata{Name: name},
 		ServerCode:     strings.TrimSpace(m.serverForm.values[1]),
 		ServerPassword: m.serverForm.values[2],
 	}
@@ -487,7 +487,7 @@ func (m *model) deleteSelectedServer() {
 		m.dialog = "服务器配置不存在。"
 		return
 	}
-	name := m.servers[m.serverIndex].Name
+	name := m.servers[m.serverIndex].Metadata.Name
 	deleted, err := m.dataManager.DeleteServerConfig(name)
 	if err != nil {
 		m.dialog = fmt.Sprintf("删除服务器配置失败：%v", err)
@@ -505,7 +505,7 @@ func (m *model) deleteSelectedServer() {
 
 func (m model) serverCursorByName(name string) int {
 	for i, server := range m.servers {
-		if server.Name == name {
+		if server.Metadata.Name == name {
 			return i + 1
 		}
 	}

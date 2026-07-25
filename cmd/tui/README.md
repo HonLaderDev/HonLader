@@ -27,13 +27,6 @@ TUI 不应该把所有字段平铺给用户。推荐采用“两段式”流程�
 ## 推荐主流程
 
 ```text
-请选择构建预设：
-  [1] 标准：稳定默认，适合大多数构建
-  [2] 快速：提高吞吐，启用预处理与预加载
-  [3] 保守：降低吞吐，减少并发和服务器压力
-  [4] 修补：从指定进度继续，进入修补相关流程
-> 1
-
 请输入建筑文件路径：./world.mcworld
 
 请输入建筑区域(例如 0,0,0~170,320,220)：0,0,0~170,320,220
@@ -48,7 +41,6 @@ TUI 不应该把所有字段平铺给用户。推荐采用“两段式”流程�
 > 1
 
 配置摘要：
-  预设：标准
   建筑文件：./world.mcworld
   建筑区域：0,0,0 ~ 170,320,220
   建筑尺寸：171 x 321 x 221
@@ -131,84 +123,6 @@ TUI 不应该把所有字段平铺给用户。推荐采用“两段式”流程�
 | 进度刷新间隔 | `game_progress_refresh_delay` | 游戏内进度刷新频率。 | 进度显示 |
 | 控制台坐标 | `console_world_pos` | NBT 方块写入使用的临时控制台区域坐标。 | 特殊方块 |
 
-## 推荐预设
-
-预设只写入默认值，不锁死字段。用户进入高级配置后可以覆盖。
-
-### 标准
-
-目标是稳定且不太慢。
-
-```text
-speed = 3000
-chunk_group_side = 2
-disable_auto_fill_build_mode = false
-disable_auto_wait_chunk_load = false
-use_ticking_area = false
-pre_handle_next_chunk_group = false
-pre_wait_next_chunk_load = false
-enable_auto_clean_block = false
-disable_auto_clean_item = false
-```
-
-### 快速
-
-目标是更高吞吐，适合本机和目标服务器都比较稳的场景。
-
-```text
-speed = 6000
-chunk_group_side = 3
-disable_auto_fill_build_mode = false
-disable_auto_wait_chunk_load = false
-use_ticking_area = true
-pre_handle_next_chunk_group = true
-pre_wait_next_chunk_load = true
-```
-
-风险提示：
-
-- 会增加本机预读取/命令生成压力。
-- 会更频繁地触发目标服务器区块加载。
-- 常加载区域槽位不足时，应自动降级为普通等待区块加载。
-
-### 保守
-
-目标是降低服务器压力，适合弱服务器或不稳定网络。
-
-```text
-speed = 1200
-chunk_group_side = 1
-disable_auto_fill_build_mode = false
-disable_auto_wait_chunk_load = false
-use_ticking_area = false
-pre_handle_next_chunk_group = false
-pre_wait_next_chunk_load = false
-```
-
-说明：
-
-- 保守模式仍建议开启 `fill` 命令合并，因为它减少命令数量，通常比逐方块 `setblock` 更稳。
-- 保守模式真正要关闭的是并发预处理、预加载和较大的区块组。
-
-### 修补
-
-目标是恢复或检查已有构建。
-
-```text
-progress = 用户输入
-enter_fix_mode_directly = 视用户选择
-disable_auto_enter_fix_mode = false
-fix_mode_timeout = 10
-```
-
-修补预设应追加询问：
-
-```text
-请选择修补方式：
-  [1] 从指定进度继续构建
-  [2] 直接进入修补模式
-```
-
 ## 字段展示建议
 
 界面上尽量使用正向文案，内部再映射到现有反向字段。
@@ -231,7 +145,6 @@ fix_mode_timeout = 10
 
 建议展示：
 
-- 预设
 - 建筑文件
 - 建筑区域
 - 建筑尺寸

@@ -2,7 +2,9 @@ package storage
 
 import (
 	"os"
+	"path/filepath"
 
+	"github.com/HonLaderDev/HonLader/consts"
 	"github.com/adrg/xdg"
 	"github.com/spf13/afero"
 )
@@ -24,12 +26,12 @@ func (s *DefaultStorage) FileSystem() afero.Fs {
 
 // ConfigDir 返回配置目录。
 func (s *DefaultStorage) ConfigDir() string {
-	return xdg.ConfigHome
+	return s.DataDir()
 }
 
 // DataDir 返回数据目录。
 func (s *DefaultStorage) DataDir() string {
-	return xdg.DataHome
+	return filepath.Join(xdg.DataHome, consts.Name)
 }
 
 // TmpDir 返回临时目录。

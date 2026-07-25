@@ -3,6 +3,8 @@ package frame
 import (
 	"context"
 	"fmt"
+	"io"
+	"time"
 
 	frame_api "github.com/HonLaderDev/HonLader-core-api/frame"
 	client "github.com/HonLaderDev/HonLader-core-client"
@@ -18,14 +20,12 @@ type TaskFrame struct {
 	taskGroupName    string
 	tasks            []define.Task
 	currentTaskIndex int
+	serverConfig     define.ServerConfig
 	config           TaskFrameConfig
 }
 
-type ClientConfig = client.FrameConfig
-
 // TaskFrameConfig 描述 TaskFrame 的创建参数。
 type TaskFrameConfig struct {
-	ClientConfig
 	// Embedded 标记是否使用嵌入式运行模式，当前暂不参与逻辑。
 	Embedded bool
 }
@@ -54,12 +54,6 @@ func (f *TaskFrame) TaskGroupName() string {
 	return f.taskGroupName
 }
 
-// WithTaskGroupName 设置任务组名称并返回自身，便于链式调用。
-func (f *TaskFrame) WithTaskGroupName(name string) define.TaskFrame {
-	f.taskGroupName = name
-	return f
-}
-
 // Tasks 返回当前框架持有的任务列表。
 func (f *TaskFrame) Tasks() []define.Task {
 	return f.tasks
@@ -70,8 +64,13 @@ func (f *TaskFrame) CurrentTaskIndex() int {
 	return f.currentTaskIndex
 }
 
-// Connect 确保 Core 客户端已经连接。
-func (f *TaskFrame) Connect(ctx context.Context) error {
+// SetCurrentTaskIndex 设置当前正在处理的任务索引。
+func (f *TaskFrame) SetCurrentTaskIndex(index int) {
+	f.currentTaskIndex = index
+}
+
+// Connect 使用连接配置确保 Core 客户端已经连接。
+func (f *TaskFrame) Connect(ctx context.Context, connectConfig define.ConnectConfig) error {
 	if err := f.initClient(); err != nil {
 		return fmt.Errorf("TaskFrame.Connect: init client: %w", err)
 	}
@@ -83,7 +82,18 @@ func (f *TaskFrame) Connect(ctx context.Context) error {
 		return nil
 	}
 
-	if _, err := f.client.Frame().StartConnection(ctx, f.config.ClientConfig); err != nil {
+	f.serverConfig = define.ServerConfig{
+		Metadata:       define.Metadata{Name: connectConfig.ServerCode},
+		ServerCode:     connectConfig.ServerCode,
+		ServerPassword: connectConfig.ServerPassword,
+	}
+	config := client.FrameConfig{
+		AuthServer:     connectConfig.AuthServer,
+		UserToken:      connectConfig.AuthToken,
+		ServerCode:     connectConfig.ServerCode,
+		ServerPassword: connectConfig.ServerPassword,
+	}
+	if _, err := f.client.Frame().StartConnection(ctx, config); err != nil {
 		return fmt.Errorf("TaskFrame.Connect: start connection: %w", err)
 	}
 
@@ -97,6 +107,19 @@ func (f *TaskFrame) Connect(ctx context.Context) error {
 	return nil
 }
 
+// CurrentServerConfig 返回最近一次连接使用的服务器配置。
+func (f *TaskFrame) CurrentServerConfig() define.ServerConfig {
+	return f.serverConfig
+}
+
+// WatchLog 监听 Core 日志并写入指定 Writer。
+func (f *TaskFrame) WatchLog(ctx context.Context, writer io.Writer) error {
+	if err := f.initClient(); err != nil {
+		return fmt.Errorf("TaskFrame.WatchLog: init client: %w", err)
+	}
+	return f.client.Frame().WatchLog(ctx, writer)
+}
+
 // AddTask 添加任务到框架并返回自身，便于链式调用。
 func (f *TaskFrame) AddTask(task define.Task) define.TaskFrame {
 	f.tasks = append(f.tasks, task)
@@ -106,6 +129,7 @@ func (f *TaskFrame) AddTask(task define.Task) define.TaskFrame {
 
 // Start 按添加顺序启动所有任务。
 func (f *TaskFrame) Start() error {
+	f.ensureTaskGroupName()
 	f.publish(EventNameTaskFrameStart, len(f.tasks))
 	for i, task := range f.tasks {
 		if i > 0 {
@@ -142,6 +166,7 @@ func (f *TaskFrame) Resume() error {
 	if task == nil {
 		return nil
 	}
+	f.ensureTaskGroupName()
 	f.publish(EventNameTaskFrameResume, f.currentTaskIndex)
 	if err := task.Resume(); err != nil {
 		f.publish(EventNameTaskFrameTaskFailed, f.currentTaskIndex, err)
@@ -204,6 +229,13 @@ func (f *TaskFrame) currentTask() define.Task {
 		return nil
 	}
 	return f.tasks[f.currentTaskIndex]
+}
+
+func (f *TaskFrame) ensureTaskGroupName() {
+	if f.taskGroupName != "" {
+		return
+	}
+	f.taskGroupName = time.Now().Format("2006-01-02 15:04:05.000000000")
 }
 
 var _ define.TaskFrame = (*TaskFrame)(nil)

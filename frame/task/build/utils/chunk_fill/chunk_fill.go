@@ -3,10 +3,10 @@ package chunk_fill
 import (
 	"fmt"
 
-	"github.com/HonLaderDev/bedrock-world-operator/block"
-	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 	"github.com/HonLaderDev/HonLader/define"
 	"github.com/HonLaderDev/HonLader/utils"
+	"github.com/HonLaderDev/bedrock-world-operator/block"
+	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 )
 
 // Bedrock 的 fill 存在体积上限。
@@ -73,8 +73,10 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 		}
 
 		type chunkEntry struct {
-			pos   define.ChunkPos
-			chunk *chunk.Chunk
+			pos  define.ChunkPos
+			data *chunk.Chunk
+			minY int
+			maxY int
 		}
 
 		entries := make([]chunkEntry, 0, len(chunks))
@@ -82,11 +84,11 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 			if c == nil {
 				continue
 			}
-			subChunks := c.Sub()
-			if len(subChunks) == 0 {
+			minY, maxY, ok := filledYRange(c)
+			if !ok {
 				continue
 			}
-			entries = append(entries, chunkEntry{pos: pos, chunk: c})
+			entries = append(entries, chunkEntry{pos: pos, data: c, minY: minY, maxY: maxY})
 		}
 
 		if len(entries) == 0 {
@@ -97,12 +99,11 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 		maxChunkX := minChunkX
 		minChunkZ := entries[0].pos.Z()
 		maxChunkZ := minChunkZ
-		minY := entries[0].chunk.Range().Min()
-		maxY := entries[0].chunk.Range().Min() + len(entries[0].chunk.Sub())*16 - 1
+		minY := entries[0].minY
+		maxY := entries[0].maxY
 
 		for _, entry := range entries[1:] {
 			pos := entry.pos
-			c := entry.chunk
 			if pos.X() < minChunkX {
 				minChunkX = pos.X()
 			}
@@ -116,13 +117,11 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 				maxChunkZ = pos.Z()
 			}
 
-			chunkMinY := c.Range().Min()
-			chunkMaxY := chunkMinY + len(c.Sub())*16 - 1
-			if chunkMinY < minY {
-				minY = chunkMinY
+			if entry.minY < minY {
+				minY = entry.minY
 			}
-			if chunkMaxY > maxY {
-				maxY = chunkMaxY
+			if entry.maxY > maxY {
+				maxY = entry.maxY
 			}
 		}
 
@@ -160,34 +159,33 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 		// 只把它们当成一个大的连续立方体区域来处理。
 		for _, entry := range entries {
 			pos := entry.pos
-			c := entry.chunk
-			chunkMinY := c.Range().Min()
-			subChunks := c.Sub()
-			height := len(subChunks) * 16
-			if height == 0 {
-				continue
-			}
+			c := entry.data
 
 			offsetX := int(pos.X()-minChunkX) * 16
 			offsetZ := int(pos.Z()-minChunkZ) * 16
-			offsetY := chunkMinY - minY
 
-			for x := 0; x < 16; x++ {
-				for y := 0; y < height; y++ {
-					worldY := chunkMinY + y
-					gy := offsetY + y
-					if gy < 0 || gy >= sizeY {
-						continue
-					}
-					for z := 0; z < 16; z++ {
-						gx := offsetX + x
-						gz := offsetZ + z
-						if gx < 0 || gx >= sizeX || gz < 0 || gz >= sizeZ {
+			for subIndex, sub := range c.Sub() {
+				if sub == nil || sub.Empty() {
+					continue
+				}
+				subBaseY := int(c.SubY(int16(subIndex)))
+				for x := range 16 {
+					for y := range 16 {
+						worldY := subBaseY + y
+						gy := worldY - minY
+						if gy < 0 || gy >= sizeY {
 							continue
 						}
-						idx := getIndex(gx, gy, gz)
-						blockIDs[idx] = c.Block(uint8(x), int16(worldY), uint8(z), 0)
-						canSet[idx] = true
+						for z := range 16 {
+							gx := offsetX + x
+							gz := offsetZ + z
+							if gx < 0 || gx >= sizeX || gz < 0 || gz >= sizeZ {
+								continue
+							}
+							idx := getIndex(gx, gy, gz)
+							blockIDs[idx] = sub.Block(byte(x), byte(y), byte(z), 0)
+							canSet[idx] = true
+						}
 					}
 				}
 			}
@@ -195,7 +193,7 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 
 		cache := make(map[uint32]blockInfo)
 		baseX := int(startPos.X())
-		baseY := int(startPos.Y())
+		baseY := int(startPos.Y()) + minY
 		baseZ := int(startPos.Z())
 
 		// 向上取整除法，用于估算拆分段数。
@@ -643,4 +641,23 @@ func GenerateChunksCommand(table *block.BlockRuntimeIDTable, chunks map[define.C
 	}()
 
 	return ch
+}
+
+// filledYRange 返回区块内真实存在的非空子区块覆盖的 Y 范围。
+func filledYRange(c *chunk.Chunk) (minY, maxY int, ok bool) {
+	for subIndex, sub := range c.Sub() {
+		if sub == nil || sub.Empty() {
+			continue
+		}
+		subMinY := int(c.SubY(int16(subIndex)))
+		subMaxY := subMinY + 15
+		if !ok || subMinY < minY {
+			minY = subMinY
+		}
+		if !ok || subMaxY > maxY {
+			maxY = subMaxY
+		}
+		ok = true
+	}
+	return minY, maxY, ok
 }

@@ -8,9 +8,9 @@ import (
 
 // SaveTaskConfig 保存任务组配置。
 func (m *DataManager) SaveTaskConfig(name string, config define.TaskGroupConfig) error {
-	config.Name = name
-	updateConfigTime(&config.CreatedAt, &config.UpdatedAt)
-	if err := saveJSON(m.FileSystem(), m.tasksDir, config.CreatedAt, config); err != nil {
+	config.Metadata.Name = name
+	updateConfigTime(&config.Metadata.CreatedAt, &config.Metadata.UpdatedAt)
+	if err := saveJSON(m.FileSystem(), m.tasksDir, config.Metadata.CreatedAt, config); err != nil {
 		return fmt.Errorf("DataManager.SaveTaskConfig: %w", err)
 	}
 	return nil
@@ -19,7 +19,7 @@ func (m *DataManager) SaveTaskConfig(name string, config define.TaskGroupConfig)
 // LoadTaskConfig 读取任务组配置。
 func (m *DataManager) LoadTaskConfig(name string) (define.TaskGroupConfig, bool, error) {
 	config, exists, err := loadJSONByName(m.FileSystem(), m.tasksDir, name, func(config define.TaskGroupConfig) string {
-		return config.Name
+		return config.Metadata.Name
 	})
 	if err != nil {
 		return define.TaskGroupConfig{}, false, fmt.Errorf("DataManager.LoadTaskConfig: %w", err)
@@ -41,9 +41,20 @@ func (m *DataManager) ListTaskConfigs() (map[string]define.TaskGroupConfig, erro
 		if err != nil {
 			return nil, fmt.Errorf("DataManager.ListTaskConfigs: load %q: %w", fileName, err)
 		}
-		if exists && config.Name != "" {
-			result[config.Name] = config
+		if exists && config.Metadata.Name != "" {
+			result[config.Metadata.Name] = config
 		}
 	}
 	return result, nil
+}
+
+// DeleteTaskConfig 删除任务组配置。
+func (m *DataManager) DeleteTaskConfig(name string) (bool, error) {
+	deleted, err := deleteJSONByName(m.FileSystem(), m.tasksDir, name, func(config define.TaskGroupConfig) string {
+		return config.Metadata.Name
+	})
+	if err != nil {
+		return false, fmt.Errorf("DataManager.DeleteTaskConfig: %w", err)
+	}
+	return deleted, nil
 }

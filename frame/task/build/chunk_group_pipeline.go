@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 	"github.com/HonLaderDev/HonLader/define"
+	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 )
 
 // chunkGroupData 保存一个区块组读取完成后的构建输入。
@@ -19,6 +19,10 @@ type chunkGroupData struct {
 	chunks map[define.ChunkPos]*chunk.Chunk
 	// nbts 保存当前区块组内读取到的方块实体 NBT 数据。
 	nbts map[define.ChunkPos][]map[string]any
+}
+
+func (d chunkGroupData) empty() bool {
+	return len(d.chunks) == 0 && len(d.nbts) == 0
 }
 
 // chunkGroupFuture 表示一个后台区块组读取任务。

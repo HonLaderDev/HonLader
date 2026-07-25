@@ -78,6 +78,7 @@ const (
 	EventNameRunChunkGroupWaitLoadFinish = Name + ".Run.ChunkGroup.WaitLoad.Finish"
 	// EventNameRunChunkGroupLoaded 区块组数据读取完成事件。
 	// 参数：chunks map[define.ChunkPos]*chunk.Chunk, nbts map[define.ChunkPos][]map[string]any。
+	// 其中 define/chunk 来自 github.com/HonLaderDev/bedrock-world-operator。
 	EventNameRunChunkGroupLoaded = Name + ".Run.ChunkGroup.Loaded"
 	// EventNameRunCommandsGenerated 区块组构建命令生成完成事件。
 	// 参数：commandCount int。
@@ -85,12 +86,33 @@ const (
 	// EventNameRunCommandSent 单条构建命令发送完成事件。
 	// 参数：command string。
 	EventNameRunCommandSent = Name + ".Run.Command.Sent"
+	// EventNameRunNBTStart 区块组 NBT 阶段开始事件。
+	// 参数：total int。
+	EventNameRunNBTStart = Name + ".Run.NBT.Start"
+	// EventNameRunCommandBlockBuilt 命令方块写入完成事件。
+	// 参数：pos define.BlockPos。
+	EventNameRunCommandBlockBuilt = Name + ".Run.NBT.CommandBlock.Built"
+	// EventNameRunNBTBlockBuilt NBT 方块写入完成事件。
+	// 参数：pos define.BlockPos。
+	EventNameRunNBTBlockBuilt = Name + ".Run.NBT.Block.Built"
+	// EventNameRunNBTFinish 区块组 NBT 阶段完成事件。
+	// 参数：total int。
+	EventNameRunNBTFinish = Name + ".Run.NBT.Finish"
 	// EventNameRunItemCleanStart 区块组掉落物清理开始事件。
 	// 参数：groupPos define.ChunkPos, command string。
 	EventNameRunItemCleanStart = Name + ".Run.ItemClean.Start"
 	// EventNameRunItemCleanFinish 区块组掉落物清理完成事件。
 	// 参数：groupPos define.ChunkPos, command string。
 	EventNameRunItemCleanFinish = Name + ".Run.ItemClean.Finish"
+	// EventNameRunCommandBlocksDisableFinish 命令方块禁用完成事件。
+	// 参数：无。
+	EventNameRunCommandBlocksDisableFinish = Name + ".Run.CommandBlocks.Disable.Finish"
+	// EventNameRunCommandBlocksReenabled 命令方块被重新启用事件。
+	// 参数：无。
+	EventNameRunCommandBlocksReenabled = Name + ".Run.CommandBlocks.Reenabled"
+	// EventNameRunCommandBlocksGuardFailed 命令方块守护失败事件。
+	// 参数：err error。
+	EventNameRunCommandBlocksGuardFailed = Name + ".Run.CommandBlocks.Guard.Failed"
 	// EventNameRunChunkGroupFinish 区块组处理完成事件。
 	// 参数：无。
 	EventNameRunChunkGroupFinish = Name + ".Run.ChunkGroup.Finish"
@@ -102,7 +124,12 @@ const (
 // publish 向任务所属框架发布构建事件。
 func (b *BuildTask) publish(name string, args ...any) {
 	if name == EventNameRunChunkGroupFinish {
-		b.frame.EventBus().Publish(frame.EventNameTaskFrameTaskCheckpoint)
+		b.publishCheckpoint()
 	}
 	b.frame.EventBus().Publish(name, args...)
+}
+
+// publishCheckpoint 请求框架立即保存当前构建断点。
+func (b *BuildTask) publishCheckpoint() {
+	b.frame.EventBus().Publish(frame.EventNameTaskFrameTaskCheckpoint)
 }

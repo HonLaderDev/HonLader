@@ -13,7 +13,6 @@ import (
 
 // takeCommandLimit 在发送命令前应用任务限速器。
 func (b *BuildTask) takeCommandLimit() {
-	return
 	if b.limiter == nil {
 		return
 	}
@@ -99,7 +98,7 @@ func (b *BuildTask) sendChat(ctx context.Context, content string) error {
 // moveBotToChunkGroup 将机器人移动到目标区块组中心。
 func (b *BuildTask) moveBotToChunkGroup(ctx context.Context, groupPos define.ChunkPos) (define.BlockPos, error) {
 	pos := b.chunkGroupTargetPos(groupPos)
-	if err := b.sendPlayerCommand(ctx, fmt.Sprintf("tp @s %d %d %d", pos.X(), pos.Y(), pos.Z())); err != nil {
+	if err := b.sendWSCommand(ctx, fmt.Sprintf("tp @s %d %d %d", pos.X(), pos.Y(), pos.Z())); err != nil {
 		return define.BlockPos{}, fmt.Errorf("BuildTask.moveBotToChunkGroup: %w", err)
 	}
 	return pos, nil

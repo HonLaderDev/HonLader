@@ -19,6 +19,11 @@ func (b *BuildTask) run(ctx context.Context) error {
 	if err := b.prepareTickingAreaRuntime(ctx); err != nil {
 		return fmt.Errorf("BuildTask.run: prepare tickingarea state: %w", err)
 	}
+	stopCommandBlocksGuard, err := b.startCommandBlocksDisabledGuard(ctx)
+	if err != nil {
+		return fmt.Errorf("BuildTask.run: start command blocks guard: %w", err)
+	}
+	defer stopCommandBlocksGuard()
 
 	// 读取初始构建进度。
 	progress, total := b.chunkManager.Progress()
@@ -26,12 +31,30 @@ func (b *BuildTask) run(ctx context.Context) error {
 
 	var currentFuture *chunkGroupFuture
 	for ; progress < total; progress++ {
-		// 标记当前区块组。
+		// 读取当前区块组数据。
 		groupPos := b.chunkManager.ChunkGroupPos(progress)
+		data, err := b.loadCurrentChunkGroup(ctx, progress, currentFuture)
+		if err != nil {
+			return fmt.Errorf("BuildTask.run: load current chunk group: %w", err)
+		}
+
+		nextIndex := progress + 1
+		if data.empty() {
+			if b.preWaitChunkGroupFuture != nil && b.preWaitChunkGroupIndex == progress {
+				b.preWaitChunkGroupIndex = -1
+				b.preWaitChunkGroupFuture = nil
+			}
+			b.updateCurrentChunk(nextIndex)
+			b.publishCheckpoint()
+			currentFuture = nil
+			continue
+		}
+
+		// 标记非空区块组，空区块组静默跳过，不刷新用户进度。
 		b.publish(EventNameRunChunkGroupStart, progress)
+		b.publish(EventNameRunChunkGroupLoaded, data.chunks, data.nbts)
 
 		// 预读取下一组数据。
-		nextIndex := progress + 1
 		var nextFuture *chunkGroupFuture
 		if nextIndex < total {
 			if b.preHandleNextChunkGroup {
@@ -59,13 +82,6 @@ func (b *BuildTask) run(ctx context.Context) error {
 			return fmt.Errorf("BuildTask.run: clean chunk group: %w", err)
 		}
 
-		// 读取当前区块组数据。
-		data, err := b.loadCurrentChunkGroup(ctx, progress, currentFuture)
-		if err != nil {
-			return fmt.Errorf("BuildTask.run: load current chunk group: %w", err)
-		}
-		b.publish(EventNameRunChunkGroupLoaded, data.chunks, data.nbts)
-
 		// 生成普通方块命令。
 		commands := b.blockBuilder.BuildCommands(data.chunks)
 		b.publish(EventNameRunCommandsGenerated, len(commands))
@@ -76,6 +92,11 @@ func (b *BuildTask) run(ctx context.Context) error {
 				return fmt.Errorf("BuildTask.run: send build command: %w", err)
 			}
 			b.publish(EventNameRunCommandSent, command)
+		}
+
+		// 写入命令方块和其他 NBT 方块。
+		if err := b.buildChunkGroupNBT(ctx, data.chunks, data.nbts); err != nil {
+			return fmt.Errorf("BuildTask.run: build chunk group nbt: %w", err)
 		}
 
 		// 清理区块组掉落物。

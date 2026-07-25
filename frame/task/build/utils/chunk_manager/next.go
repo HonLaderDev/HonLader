@@ -3,9 +3,9 @@ package chunk_manager
 import (
 	"fmt"
 
-	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 	"github.com/HonLaderDev/HonLader/define"
 	build_utils "github.com/HonLaderDev/HonLader/frame/task/build/utils"
+	"github.com/HonLaderDev/bedrock-world-operator/chunk"
 )
 
 // ChunkGroup 读取指定索引对应的一组区块，不推进内部进度。
@@ -43,7 +43,7 @@ func (c *ChunkManager) ChunkGroup(index int) (map[define.ChunkPos]*chunk.Chunk, 
 		if err != nil {
 			return nil, nil, fmt.Errorf("ChunkManager.ChunkGroup: load chunk %v: %w", chunkPos, err)
 		}
-		if exists {
+		if exists && chunkHasContent(loadedChunk) {
 			chunks[chunkPos] = loadedChunk
 		}
 
@@ -56,6 +56,19 @@ func (c *ChunkManager) ChunkGroup(index int) (map[define.ChunkPos]*chunk.Chunk, 
 		}
 	}
 	return chunks, nbts, nil
+}
+
+// chunkHasContent 判断区块中是否存在需要构建的非空子区块。
+func chunkHasContent(c *chunk.Chunk) bool {
+	if c == nil {
+		return false
+	}
+	for _, sub := range c.Sub() {
+		if sub != nil && !sub.Empty() {
+			return true
+		}
+	}
+	return false
 }
 
 // NextChunkGroup 获取下一组区块数据和对应的 NBT 数据。

@@ -205,6 +205,7 @@ func (w *BuildingWorld) generatedBlockAt(target define.BlockPos) (uint32, bool) 
 func (w *BuildingWorld) sourceBlockPos(target define.BlockPos) define.BlockPos {
 	source := target
 	source[0] += w.StartPos.X()
+	source[1] += w.StartPos.Y()
 	source[2] += w.StartPos.Z()
 	if w.AutoPlaceDenyBlock {
 		source[1]--
@@ -276,6 +277,7 @@ func (w *BuildingWorld) shiftNBTIntoTargetChunk(data map[string]any, target defi
 	}
 	targetPos := define.BlockPos{x, y, z}
 	targetPos[0] -= w.StartPos.X()
+	targetPos[1] -= w.StartPos.Y()
 	targetPos[2] -= w.StartPos.Z()
 	if w.AutoPlaceDenyBlock {
 		targetPos[1]++
@@ -303,6 +305,7 @@ func (w *BuildingWorld) canLoadChunkDirectly() bool {
 		!w.AutoPlaceBorderBlock &&
 		floorMod(w.StartPos.X(), 16) == 0 &&
 		floorMod(w.StartPos.Z(), 16) == 0 &&
+		w.StartPos.Y() == 0 &&
 		w.StartPos.Y() <= define.WorldRange[0] &&
 		w.EndPos.Y() >= define.WorldRange[1]
 }

@@ -31,29 +31,36 @@ func configFileName(createdAt time.Time) string {
 
 func saveJSON(fs afero.Fs, dir string, createdAt time.Time, value any) error {
 	fileName := configFileName(createdAt)
-	filePath, err := jsonFilePath(dir, fileName)
-	if err != nil {
+	if err := saveJSONFile(fs, dir, fileName, value); err != nil {
 		return fmt.Errorf("saveJSON: %w", err)
 	}
+	return nil
+}
+
+func saveJSONFile(fs afero.Fs, dir, fileName string, value any) error {
+	filePath, err := jsonFilePath(dir, fileName)
+	if err != nil {
+		return err
+	}
 	if err := fs.MkdirAll(dir, 0755); err != nil {
-		return fmt.Errorf("saveJSON: mkdir %q: %w", dir, err)
+		return fmt.Errorf("mkdir %q: %w", dir, err)
 	}
 
 	encoded, err := utils.MarshalMap(value)
 	if err != nil {
-		return fmt.Errorf("saveJSON: encode %q: %w", fileName, err)
+		return fmt.Errorf("encode %q: %w", fileName, err)
 	}
 	data, err := json.MarshalIndent(encoded, "", "  ")
 	if err != nil {
-		return fmt.Errorf("saveJSON: marshal %q: %w", fileName, err)
+		return fmt.Errorf("marshal %q: %w", fileName, err)
 	}
 
 	tmpPath := filePath + ".tmp"
 	if err := afero.WriteFile(fs, tmpPath, data, 0644); err != nil {
-		return fmt.Errorf("saveJSON: write temp %q: %w", tmpPath, err)
+		return fmt.Errorf("write temp %q: %w", tmpPath, err)
 	}
 	if err := fs.Rename(tmpPath, filePath); err != nil {
-		return fmt.Errorf("saveJSON: rename %q to %q: %w", tmpPath, filePath, err)
+		return fmt.Errorf("rename %q to %q: %w", tmpPath, filePath, err)
 	}
 	return nil
 }

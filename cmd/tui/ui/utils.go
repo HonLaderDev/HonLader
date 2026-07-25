@@ -10,6 +10,7 @@ import (
 	"github.com/HonLaderDev/HonLader/utils"
 )
 
+// PromptRequired 读取必填文本，空输入时使用可选默认值。
 func (t *TextUI) PromptRequired(ctx context.Context, hint string, defaultValues ...string) (string, error) {
 	for {
 		value, err := t.c.Prompt(ctx, hint)
@@ -27,6 +28,7 @@ func (t *TextUI) PromptRequired(ctx context.Context, hint string, defaultValues 
 	}
 }
 
+// PromptBlockPos 读取并解析 x,y,z 格式的方块坐标。
 func (t *TextUI) PromptBlockPos(ctx context.Context, hint string, defaultValues ...define.BlockPos) (define.BlockPos, error) {
 	for {
 		value, err := t.c.Prompt(ctx, hint)
@@ -49,6 +51,7 @@ func (t *TextUI) PromptBlockPos(ctx context.Context, hint string, defaultValues 
 	}
 }
 
+// PromptDimension 读取并解析整数维度 ID。
 func (t *TextUI) PromptDimension(ctx context.Context, hint string, defaultValues ...define.Dimension) (define.Dimension, error) {
 	for {
 		value, err := t.c.Prompt(ctx, hint)
@@ -71,6 +74,7 @@ func (t *TextUI) PromptDimension(ctx context.Context, hint string, defaultValues
 	}
 }
 
+// PromptInt 读取并解析整数输入。
 func (t *TextUI) PromptInt(ctx context.Context, hint string, defaultValues ...int) (int, error) {
 	for {
 		value, err := t.c.Prompt(ctx, hint)
@@ -93,6 +97,7 @@ func (t *TextUI) PromptInt(ctx context.Context, hint string, defaultValues ...in
 	}
 }
 
+// PromptFloat 读取并解析浮点数输入。
 func (t *TextUI) PromptFloat(ctx context.Context, hint string, defaultValues ...float64) (float64, error) {
 	for {
 		value, err := t.c.Prompt(ctx, hint)
