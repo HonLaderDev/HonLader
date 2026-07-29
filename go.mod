@@ -11,8 +11,6 @@ require (
 	github.com/HonLaderDev/tanlobbyclient v0.0.0
 	github.com/adrg/xdg v0.5.3
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
-	github.com/charmbracelet/bubbletea v1.3.10
-	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/gin-gonic/gin v1.12.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/spf13/afero v1.15.0
@@ -22,7 +20,9 @@ require (
 )
 
 require (
+	fortio.org/safecast v1.2.0 // indirect
 	github.com/HonLaderDev/HonLaderAuth-unmcpk v0.0.0 // indirect
+	github.com/HonLaderDev/mouseclient v0.0.0 // indirect
 	github.com/TriM-Organization/merry-memory v0.2.0 // indirect
 	github.com/Yeah114/bdump v0.0.0-00010101000000-000000000000 // indirect
 	github.com/Yeah114/blocks v0.0.0-20260321042356-9e0912b68e66 // indirect
@@ -102,13 +102,8 @@ require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
-	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/benbjohnson/clock v1.3.0 // indirect
 	github.com/bytedance/gopkg v0.1.3 // indirect
-	github.com/charmbracelet/colorprofile v0.2.3-0.20250311203215-f60798e515dc // indirect
-	github.com/charmbracelet/x/ansi v0.10.1 // indirect
-	github.com/charmbracelet/x/cellbuf v0.0.13-0.20250311204145-2c3ea96c31dd // indirect
-	github.com/charmbracelet/x/term v0.2.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/cloudwego/shmipc-go v0.2.0 // indirect
 	github.com/containerd/console v1.0.5 // indirect
@@ -118,26 +113,19 @@ require (
 	github.com/df-mc/go-xsapi v1.0.1 // indirect
 	github.com/df-mc/goleveldb v1.1.9 // indirect
 	github.com/df-mc/jsonc v1.0.5 // indirect
-	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
 	github.com/go-gl/mathgl v1.2.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/golang/snappy v1.0.0 // indirect
-	github.com/google/uuid v1.6.0 // indirect
+	github.com/google/uuid v1.6.0
 	github.com/gookit/color v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
-	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.23 // indirect
 	github.com/mostynb/go-grpc-compression v1.2.3 // indirect
-	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
-	github.com/muesli/cancelreader v0.2.2 // indirect
-	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
 	github.com/pterm/pterm v0.12.83 // indirect
-	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.15.0 // indirect
 	github.com/sandertv/gophertunnel v1.57.1 // indirect
 	github.com/segmentio/fasthash v1.0.3 // indirect
@@ -181,6 +169,8 @@ replace github.com/HonLaderDev/WaterStructure => ../WaterStructure
 replace github.com/Yeah114/bdump => ../WaterStructure/modules/bdump
 
 replace github.com/HonLaderDev/HonLaderAuth-core => ../HonLaderAuth-core
+
+replace github.com/HonLaderDev/mouseclient => ../mouseclient
 
 replace github.com/HonLaderDev/HonLaderAuth-neclient => ../HonLaderAuth-neclient
 

@@ -1,0 +1,43 @@
+{
+	"aid": "578026223",
+	"sdkuid": "aibgsbkitskevw67",
+	"username": "aibgsbkitskevw67@netease.win.163.com",
+	"server_time": 1784435320,
+	"access_token": "",
+	"expires_in": "",
+	"refresh_token": "",
+	"refresh_expires_in": "",
+	"realname_msg": {
+		"realname_status": "1",
+		"is_adult": "1"
+	},
+	"chl_sdk_json": {
+		"gameid": "x19",
+		"login_channel": "netease",
+		"sdkuid": "aibgsbkitskevw67",
+		"aid": "578026223",
+		"udid": "fefc6d34106fa22f",
+		"timestamp": "1784435320",
+		"sign": "1e2cea74656fee314cebca83648e2d73b4fb1058984f923ee9e2509f650ba23c"
+	},
+	"aas_version": "v2",
+	"config_enable_guardian": true,
+	"extra": {
+		"sdk_open_id": "",
+		"external_username": "",
+		"external_name": "",
+		"login_type": "",
+		"need_query_realname_guide": 0,
+		"origin_login_channel": "",
+		"origin_sdkuid": ""
+	},
+	"old_username": [
+		"g472231845243205110@ad.oppo.win.163.com"
+	],
+	"oauth2": {
+		"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODQ2OTQ1MjAsImlhdCI6MTc4NDQzNTMyMCwic3ViIjoiYWliZ3Nia2l0c2tldnc2N0BuZXRlYXNlLndpbi4xNjMuY29tOm5ldGVhc2U6YWQiLCJnYW1laWQiOiJ4MTkifQ.9XhXs9S2jILpOtsiN-wIuvb-i6JV7gcqimnzaoFiGTQ",
+		"refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODcwMjczMjAsImlhdCI6MTc4NDQzNTMyMCwic3ViIjoiYWliZ3Nia2l0c2tldnc2N0BuZXRlYXNlLndpbi4xNjMuY29tOm5ldGVhc2U6YWQiLCJnYW1laWQiOiJ4MTkiLCJ0eXAiOjF9.uHkeKIchnv5En5UsDXz6joEl07aK80IysB62nAFTw7Q"
+	},
+	"region": "",
+	"is_selected_for_gray_release": true
+}

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	grpcserver "github.com/HonLaderDev/HonLader/server/grpc"
+	grpcserver "github.com/HonLaderDev/HonLader/frame/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

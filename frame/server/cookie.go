@@ -39,15 +39,15 @@ func newCookieServer() *cookieServer {
 	return &cookieServer{sessions: make(map[string]registerSession)}
 }
 
-// GetCookieInfo 验证 Cookie，并允许 NEClient 为没有昵称的新账号自动初始化昵称。
+// GetCookieInfo 验证 Cookie，并允许 NEMCClient 为没有昵称的新账号自动初始化昵称。
 func (s *cookieServer) GetCookieInfo(ctx context.Context, req *apiv1.GetCookieInfoRequest) (*apiv1.CookieInfo, error) {
 	cookie := strings.TrimSpace(req.GetCookie())
 	if cookie == "" {
 		return nil, status.Error(codes.InvalidArgument, "cookie is required")
 	}
-	client, err := (authdefine.DefaultProvider{}).G79NEClient(ctx, cookie)
+	client, err := (authdefine.DefaultProvider{}).G79NEMCClient(ctx, cookie)
 	if err != nil {
-		return nil, status.Errorf(codes.Unauthenticated, "create ne client: %v", err)
+		return nil, status.Errorf(codes.Unauthenticated, "create nemc client: %v", err)
 	}
 	detail, err := client.UserDetail().GetPEUserDetail()
 	if err != nil {

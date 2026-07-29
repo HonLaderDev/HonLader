@@ -3,3 +3,10 @@
 .vscode
 __pycache__
 mcpe
+tmp/
+*.apk
+*.so
+*.har
+*.jsonl
+*_linux_amd64
+*.schem

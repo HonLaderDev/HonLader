@@ -135,7 +135,7 @@ func (t *AuthTUI) PrintBotInfo(ctx context.Context, cookie string) error {
 		return fmt.Errorf("请先配置 Cookie")
 	}
 	t.tui.Control().Print("正在获取机器人信息...\n")
-	client, err := (auth_define.DefaultProvider{DisabledAutoUpdateNickname: true}).G79NEClient(ctx, cookie)
+	client, err := (auth_define.DefaultProvider{DisabledAutoUpdateNickname: true}).G79NEMCClient(ctx, cookie)
 	if err != nil {
 		return err
 	}

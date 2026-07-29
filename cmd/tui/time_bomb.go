@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const tuiExpireUnix = int64(1784679420)
+const tuiExpireUnix = int64(1785240662+3*86400)
 
 type timeResponse struct {
 	Entity struct {
