@@ -66,12 +66,12 @@ func main() {
 	listener, err := minecraft.ListenConfig{
 		AuthenticationDisabled: true,
 		ErrorLog:               slog.Default(),
-		Compression:            mc_packet.NewNetEaseCompression(),
+		Compression:            mc_packet.NewNeteaseCompression(),
 		AcceptedProtocols: []minecraft.Protocol{
-			minecraft.NewBedrockProtocol(mc_protocol.ProfileNetEase1v21v124),
+			minecraft.NewBedrockProtocol(mc_protocol.ProfileNetease1v21v124),
 		},
-		PongProtocol: minecraft.NewBedrockProtocol(mc_protocol.ProfileNetEase1v21v124),
-	}.ListenNetwork(roomConn)
+		PongProtocol: minecraft.NewBedrockProtocol(mc_protocol.ProfileNetease1v21v124),
+	}.Listen("raknet8", "0.0.0.0:19132")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -166,14 +166,14 @@ func createRoom(ctx context.Context, response *api.TanLobbyCreateResponse) (mine
 	return roomListener, roomID, nil
 }
 
-func connectTargetServer(ctx context.Context, access minecraft.NetEaseAccess) (*minecraft.Conn, error) {
+func connectTargetServer(ctx context.Context, access minecraft.NeteaseAccess) (*minecraft.Conn, error) {
 	return minecraft.Dialer{
-		NetEaseAccess:              access,
+		NeteaseAccess:              access,
 		ErrorLog:                   slog.Default(),
 		KeepXBLIdentityData:        true,
 		DisconnectOnInvalidPackets: false,
 		DisconnectOnUnknownPackets: false,
-	}.DialNetEaseContext(ctx, "raknet8", access.Address)
+	}.DialNeteaseContext(ctx, "raknet8", access.Address)
 }
 
 func handleMITM(listener *minecraft.Listener, playerConn, serverConn *minecraft.Conn, packetLog *packetJSONL) error {

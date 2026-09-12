@@ -50,15 +50,15 @@ func main() {
 	listener, err := minecraft.ListenConfig{
 		AuthenticationDisabled: true,
 		ErrorLog:               slog.Default(),
-		Compression:            mc_packet.NewNetEaseCompression(),
+		Compression:            mc_packet.NewNeteaseCompression(),
 		AcceptedProtocols: []minecraft.Protocol{
-			minecraft.NewBedrockProtocol(mc_protocol.ProfileNetEase1v21v124),
+			minecraft.NewBedrockProtocol(mc_protocol.ProfileNetease1v21v124),
 		},
-		PongProtocol: minecraft.NewBedrockProtocol(mc_protocol.ProfileNetEase1v21v124),
+		PongProtocol: minecraft.NewBedrockProtocol(mc_protocol.ProfileNetease1v21v124),
 		PacketFunc: func(header mc_packet.Header, payload []byte, src, dst net.Addr) {
 			fmt.Printf("mc packet id=%d src=%s dst=%s bytes=%d\n", header.PacketID, src, dst, len(payload))
 		},
-	}.ListenNetwork(roomConn)
+	}.Listen("raknet8", "0.0.0.0:19132")
 	if err != nil {
 		log.Fatal(err)
 	}
